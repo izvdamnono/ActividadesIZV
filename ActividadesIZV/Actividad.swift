@@ -19,40 +19,40 @@ class Actividad {
     var horaFin: String
     
     init(id: Int, idProfesor: Int , idGrupo: Int , descripcion: String , resumen: String , fecha: String , horaInicio: String , horaFin: String){
-        self.id = id
-        self.idProfesor = idProfesor
-        self.idGrupo = idGrupo
+        self.id          = id
+        self.idProfesor  = idProfesor
+        self.idGrupo     = idGrupo
         self.descripcion = descripcion
-        self.resumen = resumen
-        self.fecha = fecha
-        self.horaInicio = horaInicio
-        self.horaFin = horaFin
+        self.resumen     = resumen
+        self.fecha       = fecha
+        self.horaInicio  = horaInicio
+        self.horaFin     = horaFin
     }
     
     //Constructor utilizado para crear una actividad a partir de un json
     init?(json: [String: Any]){
         
-        guard   let id      = json["id"] as? Int,
-            let idProfesor  = json["idap"] as? Int,
-            let idGrupo  = json["idag"] as? Int,
-            let descripcion  = json["descripcion"] as? String,
-            let resumen  = json["resumen"] as? String,
-            let fecha  = json["fecha"] as? String,
-            let horaInicio  = json["hini"] as? String,
-            let horaFin  = json["hfin"] as? String
-            else
+        guard   let id           = json["id"] as? Int,
+                let idProfesor   = json["idap"] as? Int,
+                let idGrupo      = json["idag"] as? Int,
+                let descripcion  = json["descripcion"] as? String,
+                let resumen      = json["resumen"] as? String,
+                let fecha        = json["fecha"] as? String,
+                let horaInicio   = json["hini"] as? String,
+                let horaFin      = json["hfin"] as? String
+        else
         {
             return nil
         }
         
-        self.id = id
-        self.idProfesor = idProfesor
-        self.idGrupo = idGrupo
+        self.id          = id
+        self.idProfesor  = idProfesor
+        self.idGrupo     = idGrupo
         self.descripcion = descripcion
-        self.resumen = resumen
-        self.fecha = fecha
-        self.horaInicio = horaInicio
-        self.horaFin = horaFin
+        self.resumen     = resumen
+        self.fecha       = fecha
+        self.horaInicio  = horaInicio
+        self.horaFin     = horaFin
 
     }
     

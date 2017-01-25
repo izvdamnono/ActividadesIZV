@@ -38,11 +38,10 @@ class Api {
             switch method {
                 
                 case "POST", "PUT":
-                
-                    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                     
                     if let jsonData = try? JSONSerialization.data(withJSONObject: data, options: .prettyPrinted) {
                         
+                        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                         request.httpBody = jsonData
                     }
                 
