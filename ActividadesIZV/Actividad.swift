@@ -18,9 +18,8 @@ class Actividad {
     var horaInicio: String
     var horaFin: String
     
-    init(id: Int = 0, idProfesor: Int , idGrupo: Int , descripcion: String , resumen: String , fecha: String , horaInicio: String , horaFin: String){
-        
-        if id != 0 { self.id = id }
+    init(id: Int, idProfesor: Int , idGrupo: Int , descripcion: String , resumen: String , fecha: String , horaInicio: String , horaFin: String){
+        self.id = id
         self.idProfesor = idProfesor
         self.idGrupo = idGrupo
         self.descripcion = descripcion
