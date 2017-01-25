@@ -23,9 +23,13 @@ class ViewController: UIViewController, SendResponse {
         let queue   = DispatchQueue(label: "api", attributes: .concurrent)
         
         queue.async {
-        
+            //Consulta todas las actividades
             api.connectToServer(path: "actividad", method:"GET", protocolo: self )
+            
+            //Insercion profesor, de la clase de profesor le enviamos su json
             //api.connectToServer(path: "profesor", method:"POST", data: profesor.toJsonData() ,protocolo:self)
+            
+            //Consulta profesor
             //api.connectToServer(path: "profesor", method: "GET", protocolo: self)
         }
         
