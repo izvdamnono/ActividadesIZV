@@ -14,6 +14,11 @@
 		EDBECA5B1E367BE70048B079 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDBECA591E367BE70048B079 /* LaunchScreen.storyboard */; };
 		EDBECA661E367BE80048B079 /* ActividadesIZVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBECA651E367BE80048B079 /* ActividadesIZVTests.swift */; };
 		EDBECA711E367BE80048B079 /* ActividadesIZVUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBECA701E367BE80048B079 /* ActividadesIZVUITests.swift */; };
+		EDC131461E3865DD00DF5C99 /* Actividad.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC131451E3865DD00DF5C99 /* Actividad.swift */; };
+		EDC131481E38660F00DF5C99 /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC131471E38660F00DF5C99 /* Api.swift */; };
+		EDC1314A1E38663500DF5C99 /* Profesor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC131491E38663500DF5C99 /* Profesor.swift */; };
+		EDC1314C1E38665F00DF5C99 /* SendResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC1314B1E38665F00DF5C99 /* SendResponse.swift */; };
+		EDC131501E3866B300DF5C99 /* Grupo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC1314F1E3866B300DF5C99 /* Grupo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +52,11 @@
 		EDBECA6C1E367BE80048B079 /* ActividadesIZVUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ActividadesIZVUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDBECA701E367BE80048B079 /* ActividadesIZVUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActividadesIZVUITests.swift; sourceTree = "<group>"; };
 		EDBECA721E367BE80048B079 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EDC131451E3865DD00DF5C99 /* Actividad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Actividad.swift; sourceTree = "<group>"; };
+		EDC131471E38660F00DF5C99 /* Api.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
+		EDC131491E38663500DF5C99 /* Profesor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profesor.swift; sourceTree = "<group>"; };
+		EDC1314B1E38665F00DF5C99 /* SendResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendResponse.swift; sourceTree = "<group>"; };
+		EDC1314F1E3866B300DF5C99 /* Grupo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grupo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +107,8 @@
 		EDBECA4F1E367BE70048B079 /* ActividadesIZV */ = {
 			isa = PBXGroup;
 			children = (
+				EDC131521E38671500DF5C99 /* Protocolos */,
+				EDC131511E3866C600DF5C99 /* Clases */,
 				EDBECA501E367BE70048B079 /* AppDelegate.swift */,
 				EDBECA521E367BE70048B079 /* ViewController.swift */,
 				EDBECA541E367BE70048B079 /* Main.storyboard */,
@@ -123,6 +135,25 @@
 				EDBECA721E367BE80048B079 /* Info.plist */,
 			);
 			path = ActividadesIZVUITests;
+			sourceTree = "<group>";
+		};
+		EDC131511E3866C600DF5C99 /* Clases */ = {
+			isa = PBXGroup;
+			children = (
+				EDC1314F1E3866B300DF5C99 /* Grupo.swift */,
+				EDC131451E3865DD00DF5C99 /* Actividad.swift */,
+				EDC131471E38660F00DF5C99 /* Api.swift */,
+				EDC131491E38663500DF5C99 /* Profesor.swift */,
+			);
+			name = Clases;
+			sourceTree = "<group>";
+		};
+		EDC131521E38671500DF5C99 /* Protocolos */ = {
+			isa = PBXGroup;
+			children = (
+				EDC1314B1E38665F00DF5C99 /* SendResponse.swift */,
+			);
+			name = Protocolos;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,8 +293,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDC131461E3865DD00DF5C99 /* Actividad.swift in Sources */,
 				EDBECA531E367BE70048B079 /* ViewController.swift in Sources */,
+				EDC131501E3866B300DF5C99 /* Grupo.swift in Sources */,
+				EDC1314C1E38665F00DF5C99 /* SendResponse.swift in Sources */,
+				EDC131481E38660F00DF5C99 /* Api.swift in Sources */,
 				EDBECA511E367BE70048B079 /* AppDelegate.swift in Sources */,
+				EDC1314A1E38663500DF5C99 /* Profesor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -514,6 +550,7 @@
 				EDBECA771E367BE80048B079 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EDBECA781E367BE80048B079 /* Build configuration list for PBXNativeTarget "ActividadesIZVTests" */ = {
 			isa = XCConfigurationList;
@@ -522,6 +559,7 @@
 				EDBECA7A1E367BE80048B079 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EDBECA7B1E367BE80048B079 /* Build configuration list for PBXNativeTarget "ActividadesIZVUITests" */ = {
 			isa = XCConfigurationList;
@@ -530,6 +568,7 @@
 				EDBECA7D1E367BE80048B079 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
