@@ -8,8 +8,17 @@
 
 import UIKit
 
-class ActividadTableViewController: UITableViewController {
+class ActividadTableViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
 
+    // MARK: Outlets
+    
+    var viewPicker    = UIPickerView()
+    var teachers      = ["Antonio", "Fernando"]
+    var groups        = ["DAM", "DAW"]
+    
+    var activeArray :[String]!
+    var textfieldProfesor :UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,6 +29,11 @@ class ActividadTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
         self.tableView.backgroundColor = UIColor.lightGray
+        
+        textfieldProfesor.inputView    = viewPicker
+        viewPicker.delegate            = self
+        viewPicker.dataSource          = self
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -93,5 +107,58 @@ class ActividadTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    //MARK: Delegate PickerView
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        activeArray = [""] //clear out the clicked field data array
+        if textField == textfieldProfesor {
+            activeArray = teachers
+        } /*else
+            if textField == enterSport {
+                activeDataArray = sport
+        }*/
+    
+        viewPicker.reloadAllComponents()
+        viewPicker.isHidden = false
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return activeArray.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    
+        return activeArray[row]
+    }
+    
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
+        if activeArray == teachers {
+            textfieldProfesor.text = teachers[row] as String
+        }
+        else if activeArray == groups {
+            //enterSport.text = sport[row] as String
+        }
+        //trying to hide the dataPicker
+        self.view.endEditing(true)
+        //dataPickerView.reloadAllComponents()
+        //self.dataPickerView.resignFirstResponder()
+        //self.dataPickerView.frameForAlignmentRect(CGRectMake(0, 900, 375, 219))
+        
+    }
+    
+    //function to hide data in
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    
 }

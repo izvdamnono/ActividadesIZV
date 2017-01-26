@@ -20,6 +20,7 @@
 		EDC1314A1E38663500DF5C99 /* Profesor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC131491E38663500DF5C99 /* Profesor.swift */; };
 		EDC1314C1E38665F00DF5C99 /* SendResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC1314B1E38665F00DF5C99 /* SendResponse.swift */; };
 		EDC131501E3866B300DF5C99 /* Grupo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC1314F1E3866B300DF5C99 /* Grupo.swift */; };
+		EDD5ADF91E39FE320074BECC /* Departamento.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD5ADF81E39FE320074BECC /* Departamento.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		EDC131491E38663500DF5C99 /* Profesor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profesor.swift; sourceTree = "<group>"; };
 		EDC1314B1E38665F00DF5C99 /* SendResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendResponse.swift; sourceTree = "<group>"; };
 		EDC1314F1E3866B300DF5C99 /* Grupo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grupo.swift; sourceTree = "<group>"; };
+		EDD5ADF81E39FE320074BECC /* Departamento.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Departamento.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				EDC1314F1E3866B300DF5C99 /* Grupo.swift */,
+				EDD5ADF81E39FE320074BECC /* Departamento.swift */,
 				EDC131451E3865DD00DF5C99 /* Actividad.swift */,
 				EDC131471E38660F00DF5C99 /* Api.swift */,
 				EDC131491E38663500DF5C99 /* Profesor.swift */,
@@ -307,6 +310,7 @@
 				EDC131461E3865DD00DF5C99 /* Actividad.swift in Sources */,
 				EDA5E9AC1E392E7E008E0F25 /* ActividadTableViewController.swift in Sources */,
 				EDBECA531E367BE70048B079 /* ViewController.swift in Sources */,
+				EDD5ADF91E39FE320074BECC /* Departamento.swift in Sources */,
 				EDC131501E3866B300DF5C99 /* Grupo.swift in Sources */,
 				EDC1314C1E38665F00DF5C99 /* SendResponse.swift in Sources */,
 				EDC131481E38660F00DF5C99 /* Api.swift in Sources */,
