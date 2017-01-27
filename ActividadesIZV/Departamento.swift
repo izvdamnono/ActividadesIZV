@@ -30,7 +30,7 @@ class Departamento {
     init?(json: [String: Any]){
         
         guard   let id      = json["id"] as? Int,
-                let nombre  = json["nombre"] as? String
+                let nombre  = json["nombreDepartamento"] as? String
             else
         {
             return nil
@@ -43,7 +43,7 @@ class Departamento {
     //Metodo utilizado para obtener un json de un profesor
     func toJsonData() -> [String: Any] {
         
-        return ["id" : self.id, "nombre" : self.nombre]
+        return ["id" : self.id, "nombreDepartamento" : self.nombre]
     }
     
 }

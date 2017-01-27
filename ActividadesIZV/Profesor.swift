@@ -32,7 +32,7 @@ class Profesor {
     init?(json: [String: Any]){
         
         guard   let id      = json["id"] as? Int,
-                let nombre  = json["nombre"] as? String,
+                let nombre  = json["nombreProfesor"] as? String,
                 let idDep   = json["idpd"] as? Int
         else
         {

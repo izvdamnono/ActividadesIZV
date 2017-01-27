@@ -10,9 +10,9 @@ import UIKit
 
 class AddActivityTableViewController: UITableViewController, SendResponse, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
+    //MARK: Outlets
     @IBOutlet weak var tfProfesor: UITextField!
     @IBOutlet weak var tfDepartamento: UITextField!
-    
     @IBOutlet weak var tfGrupo: UITextField!
     
     var viewPicker    = UIPickerView()
@@ -190,6 +190,12 @@ class AddActivityTableViewController: UITableViewController, SendResponse, UIPic
             case 0:
                 //Recargamos los profesores del departamento seleccionado
                 tfDepartamento.text = departs[row].nombre
+                let path = "departamento/" + String(departs[row].id) + "/profesor"
+                
+                queue.async {
+                    self.api.connectToServer(path: path, method: "GET", protocolo: self)
+                }
+            
             case 1:
                 tfProfesor.text = teachers[row].nombre
             case 2:
@@ -216,36 +222,43 @@ class AddActivityTableViewController: UITableViewController, SendResponse, UIPic
     //funcion con la que obtenemos los datos de de nuestro servidor
     func sendResponse(response: Any) -> Void {
     
-        if let arrayR = response as? [[String: Any]] {
+        guard let arrayR = response as? [[String:Any]],
+              arrayR.count > 0
+        else {
             
-            let element = arrayR[0]
             
-            if Profesor(json:element) != nil {
+            return
+        }
+        
+        let element = arrayR[0]
+            
+        if Profesor(json:element) != nil {
                 
-                //Si el primer elemento es un profesor tenemos un array de profesores
-                for teacher in arrayR {
-                    
-                    teachers.append(Profesor(json:teacher)!)
-                }
+            //Si el primer elemento es un profesor tenemos un array de profesores
+            var teacherAux = [] as [Profesor]
+                
+            for teacher in arrayR {
+                
+                teacherAux.append(Profesor(json:teacher)!)
             }
-            else
-            {
-                if Departamento(json:element) != nil{
-                    
-                    for departament in arrayR{
+            
+            teachers = teacherAux
+                
+        } else if Departamento(json:element) != nil{
+                
+            for departament in arrayR{
                         
-                        departs.append(Departamento(json:departament)!)
-                    }
-                }
-                else
-                {
-                    for group in arrayR {
+                departs.append(Departamento(json:departament)!)
+            }
+                
+        } else if Grupo(json:element) != nil {
+                
+            for group in arrayR {
                         
-                        groups.append(Grupo(json:group)!)
-                    }
-                }
+                groups.append(Grupo(json:group)!)
             }
         }
+            
     }
-
+    
 }

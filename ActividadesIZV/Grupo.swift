@@ -24,7 +24,7 @@ class Grupo {
     init?(json: [String: Any]){
         
         guard   let id      = json["id"] as? Int,
-                let nombre  = json["nombre"] as? String
+                let nombre  = json["nombreGrupo"] as? String
             else
         {
             return nil
@@ -37,7 +37,7 @@ class Grupo {
     //Metodo utilizado para obtener un json de un profesor
     func toJsonData() -> [String: Any] {
         
-        return ["id" : self.id, "nombre" : self.nombre]
+        return ["id" : self.id, "nombreGrupo" : self.nombre]
     }
     
 }
