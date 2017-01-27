@@ -54,6 +54,7 @@ class AddActivityTableViewController: UITableViewController, SendResponse, UIPic
             self.api.connectToServer(path:"profesor", method:"GET", protocolo: self)
             self.api.connectToServer(path:"grupo", method:"GET", protocolo: self)
         }
+    
     }
     
     override func didReceiveMemoryWarning() {

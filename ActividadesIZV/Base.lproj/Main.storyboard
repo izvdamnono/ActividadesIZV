@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="OY7-NX-V9x">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="OY7-NX-V9x">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -259,29 +259,26 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="wR1-t4-Uqo">
-                                                    <rect key="frame" x="8" y="8" width="359" height="27"/>
+                                                    <rect key="frame" x="8" y="8" width="353" height="27"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="Fecha" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ODB-mz-5Fi">
-                                                            <rect key="frame" x="0.0" y="0.0" width="117" height="27"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="300" height="27"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="U42-aa-XOo">
-                                                            <rect key="frame" x="125" y="0.0" width="234" height="27"/>
-                                                            <nil key="textColor"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <textInputTraits key="textInputTraits"/>
-                                                        </textField>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OL9-ed-wtg">
+                                                            <rect key="frame" x="308" y="0.0" width="45" height="27"/>
+                                                            <state key="normal" title="Añadir"/>
+                                                        </button>
                                                     </subviews>
                                                 </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="wR1-t4-Uqo" secondAttribute="trailing" id="2Vq-eS-i64"/>
                                                 <constraint firstItem="wR1-t4-Uqo" firstAttribute="leading" secondItem="80C-E6-b73" secondAttribute="leadingMargin" id="G4J-wT-nS7"/>
                                                 <constraint firstItem="wR1-t4-Uqo" firstAttribute="top" secondItem="80C-E6-b73" secondAttribute="topMargin" id="WS0-dn-rj4"/>
+                                                <constraint firstItem="ODB-mz-5Fi" firstAttribute="width" secondItem="80C-E6-b73" secondAttribute="width" multiplier="0.8" id="Z24-La-PAK"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="wR1-t4-Uqo" secondAttribute="bottom" id="ag0-wN-kA4"/>
-                                                <constraint firstItem="U42-aa-XOo" firstAttribute="width" relation="lessThanOrEqual" secondItem="80C-E6-b73" secondAttribute="width" multiplier="0.625" id="mrU-4E-RQS"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
