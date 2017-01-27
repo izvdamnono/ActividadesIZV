@@ -362,6 +362,8 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="tfDepartamento" destination="ebl-xz-zMJ" id="b1u-KZ-dSD"/>
+                        <outlet property="tfGrupo" destination="8H9-lI-2nq" id="raN-aa-8p9"/>
                         <outlet property="tfProfesor" destination="gTl-Cc-t1a" id="BCn-DN-7iE"/>
                     </connections>
                 </tableViewController>

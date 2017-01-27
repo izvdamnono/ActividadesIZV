@@ -8,14 +8,24 @@
 
 import UIKit
 
-class AddActivityTableViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+class AddActivityTableViewController: UITableViewController, SendResponse, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
     @IBOutlet weak var tfProfesor: UITextField!
-    var viewPicker    = UIPickerView()
-    var teachers      = ["Antonio", "Fernando"]
-    var groups        = ["DAM", "DAW"]
+    @IBOutlet weak var tfDepartamento: UITextField!
     
-    var activeArray :[String]!
+    @IBOutlet weak var tfGrupo: UITextField!
+    
+    var viewPicker    = UIPickerView()
+    
+    //MARK: Informacion acerca de la Actividad
+    var teachers      = [] as [Profesor]
+    var groups        = [] as [Grupo]
+    var departs       = [] as [Departamento]
+    var flag          = -1
+    
+    //MARK: Objeto Api que nos permite mostrar la informacion
+    var api           = Api()
+    let queue         = DispatchQueue(label:"addAct", attributes: .concurrent)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,9 +36,24 @@ class AddActivityTableViewController: UITableViewController, UIPickerViewDelegat
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-        tfProfesor.inputView    = viewPicker
+        tfDepartamento.inputView = viewPicker
+        tfProfesor.inputView     = viewPicker
+        tfGrupo.inputView        = viewPicker
+        
+        tfDepartamento.delegate = self
+        tfProfesor.delegate     = self
+        tfGrupo.delegate        = self
+        
         viewPicker.delegate     = self
         viewPicker.dataSource   = self
+        
+        //inicializamos los datos
+        queue.async{
+            
+            self.api.connectToServer(path:"departamento", method:"GET", protocolo: self)
+            self.api.connectToServer(path:"profesor", method:"GET", protocolo: self)
+            self.api.connectToServer(path:"grupo", method:"GET", protocolo: self)
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -38,16 +63,17 @@ class AddActivityTableViewController: UITableViewController, UIPickerViewDelegat
     
     // MARK: - Table view data source
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    /*override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 3
+        
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 9
     }
-    
+    */
     /*override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
      
      let cell = tableView.dequeueReusableCell(withIdentifier: "cellTeacher", for: indexPath)
@@ -107,13 +133,16 @@ class AddActivityTableViewController: UITableViewController, UIPickerViewDelegat
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
-        activeArray = [""] //clear out the clicked field data array
-        if textField == tfProfesor {
-            activeArray = teachers
-        } /*else
-         if textField == enterSport {
-         activeDataArray = sport
-         }*/
+        switch textField {
+            
+            case tfDepartamento:
+                flag = 0
+            case tfProfesor:
+                flag = 1
+            case tfGrupo:
+                flag = 2
+            default: flag = -1
+        }
         
         viewPicker.reloadAllComponents()
         viewPicker.isHidden = false
@@ -124,23 +153,52 @@ class AddActivityTableViewController: UITableViewController, UIPickerViewDelegat
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return activeArray.count
+        
+        switch flag {
+            
+            case 0:
+                return departs.count
+            case 1:
+                return teachers.count
+            case 2:
+                return groups.count
+            default:
+                return 0
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
-        return activeArray[row]
+        switch flag {
+            
+            case 0:
+                return departs[row].nombre
+            case 1:
+                return teachers[row].nombre
+            case 2:
+                return groups[row].nombre
+            default:
+                return ""
+        }
     }
     
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
-        if activeArray == teachers {
-            tfProfesor.text = teachers[row] as String
+        switch flag {
+            
+            case 0:
+                //Recargamos los profesores del departamento seleccionado
+                tfDepartamento.text = departs[row].nombre
+            case 1:
+                tfProfesor.text = teachers[row].nombre
+            case 2:
+                tfGrupo.text = groups[row].nombre
+            default:
+                break
+            
         }
-        else if activeArray == groups {
-            //enterSport.text = sport[row] as String
-        }
+        
         //trying to hide the dataPicker
         self.view.endEditing(true)
         //dataPickerView.reloadAllComponents()
@@ -155,6 +213,39 @@ class AddActivityTableViewController: UITableViewController, UIPickerViewDelegat
         return true
     }
     
+    //funcion con la que obtenemos los datos de de nuestro servidor
+    func sendResponse(response: Any) -> Void {
     
+        if let arrayR = response as? [[String: Any]] {
+            
+            let element = arrayR[0]
+            
+            if Profesor(json:element) != nil {
+                
+                //Si el primer elemento es un profesor tenemos un array de profesores
+                for teacher in arrayR {
+                    
+                    teachers.append(Profesor(json:teacher)!)
+                }
+            }
+            else
+            {
+                if Departamento(json:element) != nil{
+                    
+                    for departament in arrayR{
+                        
+                        departs.append(Departamento(json:departament)!)
+                    }
+                }
+                else
+                {
+                    for group in arrayR {
+                        
+                        groups.append(Grupo(json:group)!)
+                    }
+                }
+            }
+        }
+    }
 
 }
