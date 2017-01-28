@@ -19,6 +19,11 @@ class Actividad {
     var horaInicio: String
     var horaFin: String
     
+    convenience init(){
+        
+        self.init(id:0, idProfesor:0, idGrupo:0, titulo: "", descripcion: "", resumen:"", fecha: "", horaInicio: "", horaFin: "")
+    }
+    
     init(id: Int, idProfesor: Int , idGrupo: Int , titulo: String, descripcion: String , resumen: String , fecha: String , horaInicio: String , horaFin: String){
         self.id          = id
         self.idProfesor  = idProfesor

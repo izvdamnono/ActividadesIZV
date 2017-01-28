@@ -7,10 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		ED25A8AB1E3A724B00F52956 /* AddActivityTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED25A8AA1E3A724A00F52956 /* AddActivityTableViewController.swift */; };
+		ED4E1F9C1E3D022C009E46DD /* AddActividadTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4E1F9B1E3D022C009E46DD /* AddActividadTableViewController.swift */; };
 		EDBECA511E367BE70048B079 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBECA501E367BE70048B079 /* AppDelegate.swift */; };
 		EDBECA531E367BE70048B079 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBECA521E367BE70048B079 /* ViewController.swift */; };
-		EDBECA561E367BE70048B079 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDBECA541E367BE70048B079 /* Main.storyboard */; };
 		EDBECA581E367BE70048B079 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDBECA571E367BE70048B079 /* Assets.xcassets */; };
 		EDBECA5B1E367BE70048B079 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDBECA591E367BE70048B079 /* LaunchScreen.storyboard */; };
 		EDBECA661E367BE80048B079 /* ActividadesIZVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBECA651E367BE80048B079 /* ActividadesIZVTests.swift */; };
@@ -20,6 +19,7 @@
 		EDC1314A1E38663500DF5C99 /* Profesor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC131491E38663500DF5C99 /* Profesor.swift */; };
 		EDC1314C1E38665F00DF5C99 /* SendResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC1314B1E38665F00DF5C99 /* SendResponse.swift */; };
 		EDC131501E3866B300DF5C99 /* Grupo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC1314F1E3866B300DF5C99 /* Grupo.swift */; };
+		EDD4569C1E3CF56900014DE8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDD4569A1E3CF56900014DE8 /* Main.storyboard */; };
 		EDD5ADF91E39FE320074BECC /* Departamento.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD5ADF81E39FE320074BECC /* Departamento.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,11 +41,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		ED25A8AA1E3A724A00F52956 /* AddActivityTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddActivityTableViewController.swift; sourceTree = "<group>"; };
+		ED4E1F9B1E3D022C009E46DD /* AddActividadTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddActividadTableViewController.swift; sourceTree = "<group>"; };
 		EDBECA4D1E367BE70048B079 /* ActividadesIZV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ActividadesIZV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDBECA501E367BE70048B079 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EDBECA521E367BE70048B079 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		EDBECA551E367BE70048B079 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EDBECA571E367BE70048B079 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EDBECA5A1E367BE70048B079 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EDBECA5C1E367BE70048B079 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -60,6 +59,7 @@
 		EDC131491E38663500DF5C99 /* Profesor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profesor.swift; sourceTree = "<group>"; };
 		EDC1314B1E38665F00DF5C99 /* SendResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendResponse.swift; sourceTree = "<group>"; };
 		EDC1314F1E3866B300DF5C99 /* Grupo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grupo.swift; sourceTree = "<group>"; };
+		EDD4569B1E3CF56900014DE8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = ActividadesIZV/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EDD5ADF81E39FE320074BECC /* Departamento.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Departamento.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,7 +91,7 @@
 		EDA5E9AA1E392E4A008E0F25 /* Controladores */ = {
 			isa = PBXGroup;
 			children = (
-				ED25A8AA1E3A724A00F52956 /* AddActivityTableViewController.swift */,
+				ED4E1F9B1E3D022C009E46DD /* AddActividadTableViewController.swift */,
 			);
 			name = Controladores;
 			sourceTree = "<group>";
@@ -124,8 +124,8 @@
 				EDC131511E3866C600DF5C99 /* Clases */,
 				EDBECA501E367BE70048B079 /* AppDelegate.swift */,
 				EDBECA521E367BE70048B079 /* ViewController.swift */,
-				EDBECA541E367BE70048B079 /* Main.storyboard */,
 				EDBECA571E367BE70048B079 /* Assets.xcassets */,
+				EDD4569A1E3CF56900014DE8 /* Main.storyboard */,
 				EDBECA591E367BE70048B079 /* LaunchScreen.storyboard */,
 				EDBECA5C1E367BE70048B079 /* Info.plist */,
 			);
@@ -280,9 +280,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDD4569C1E3CF56900014DE8 /* Main.storyboard in Resources */,
 				EDBECA5B1E367BE70048B079 /* LaunchScreen.storyboard in Resources */,
 				EDBECA581E367BE70048B079 /* Assets.xcassets in Resources */,
-				EDBECA561E367BE70048B079 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,7 +307,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ED25A8AB1E3A724B00F52956 /* AddActivityTableViewController.swift in Sources */,
 				EDC131461E3865DD00DF5C99 /* Actividad.swift in Sources */,
 				EDBECA531E367BE70048B079 /* ViewController.swift in Sources */,
 				EDD5ADF91E39FE320074BECC /* Departamento.swift in Sources */,
@@ -316,6 +315,7 @@
 				EDC131481E38660F00DF5C99 /* Api.swift in Sources */,
 				EDBECA511E367BE70048B079 /* AppDelegate.swift in Sources */,
 				EDC1314A1E38663500DF5C99 /* Profesor.swift in Sources */,
+				ED4E1F9C1E3D022C009E46DD /* AddActividadTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,20 +351,21 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		EDBECA541E367BE70048B079 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EDBECA551E367BE70048B079 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		EDBECA591E367BE70048B079 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				EDBECA5A1E367BE70048B079 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		EDD4569A1E3CF56900014DE8 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EDD4569B1E3CF56900014DE8 /* Base */,
+			);
+			name = Main.storyboard;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

@@ -24,7 +24,7 @@ class ViewController: UIViewController, SendResponse {
         
         queue.async {
             //Consulta todas las actividades
-            api.connectToServer(path: "actividad", method:"GET", protocolo: self )
+            //api.connectToServer(path: "actividad", method:"GET", protocolo: self )
             
             //Insercion profesor, de la clase de profesor le enviamos su json
             //api.connectToServer(path: "profesor", method:"POST", data: profesor.toJsonData() ,protocolo:self)
