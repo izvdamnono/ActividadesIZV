@@ -8,7 +8,9 @@
 
 import UIKit
 
-class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextViewDelegate, UITextFieldDelegate, SendResponse {
+class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextViewDelegate, UITextFieldDelegate,
+    UIImagePickerControllerDelegate, UINavigationControllerDelegate,
+    SendResponse {
 
     //MARK: Outlets
     @IBOutlet weak var tfTitulo: UITextField!
@@ -24,6 +26,7 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
     @IBOutlet weak var lbFin: UILabel!
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var ivActividad: UIImageView!
     
     //MARK: Pickers
     var viewPicker    = UIPickerView()
@@ -57,13 +60,14 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         //Reconocedores de gestos que nos permiten detectar la pulsacion de cada label de nuestra tabla
-        let tapDep = UITapGestureRecognizer(target: self, action: #selector(ActivityTableViewController.tapDep))
+         let tapDep = UITapGestureRecognizer(target: self, action: #selector(ActivityTableViewController.tapDep))
          let tapPro = UITapGestureRecognizer(target: self, action: #selector(ActivityTableViewController.tapPro))
          let tapGrp = UITapGestureRecognizer(target: self, action: #selector(ActivityTableViewController.tapGrp))
          let tapFec = UITapGestureRecognizer(target: self, action: #selector(ActivityTableViewController.tapFec))
          let tapIni = UITapGestureRecognizer(target: self, action: #selector(ActivityTableViewController.tapIni))
          let tapFin = UITapGestureRecognizer(target: self, action: #selector(ActivityTableViewController.tapFin))
-         
+         let tapImg = UITapGestureRecognizer(target: self, action: #selector(ActivityTableViewController.tapImg))
+        
          //Agregamos los reconocedores de gestos a cada label
          lbDepartamento.addGestureRecognizer(tapDep)
          lbProfesor.addGestureRecognizer(tapPro)
@@ -71,14 +75,15 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
          lbFecha.addGestureRecognizer(tapFec)
          lbInicio.addGestureRecognizer(tapIni)
          lbFin.addGestureRecognizer(tapFin)
-         
+         ivActividad.addGestureRecognizer(tapImg)
+        
          viewPicker.delegate     = self
          viewPicker.dataSource   = self
          
          tfTitulo.delegate       = self
          tfResumen.delegate      = self
          tvDescripcion.delegate  = self
-         
+        
          //Le damos borde al textview
          tvDescripcion.layer.borderColor = tfTitulo.layer.borderColor
          tvDescripcion.layer.borderWidth = 1.0
@@ -228,7 +233,35 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
         datePicker.datePickerMode = .time
         showDatePickerDialog()
      }
-     
+    
+    func tapImg(sender:UITapGestureRecognizer) {
+        
+        hideKeyboard()
+        
+        let imagePickerController = UIImagePickerController()
+        
+        imagePickerController.sourceType    = .photoLibrary
+        imagePickerController.delegate      = self
+        present(imagePickerController, animated:true, completion:{})
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        
+        dismiss(animated:true, completion:{})
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        guard let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+            
+            return
+        }
+        
+        ivActividad.image = selectedImage
+        dismiss(animated:true, completion:{})
+    }
+    
+    
      //Metodo utilizado para mostrar un dialogo cuyo elemento principal es un viewpicker
      func showViewPickerDialog() {
      
@@ -400,7 +433,6 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
      
         //Obtenemos la fila seleccionada de nuestro picker para obtener los datos al finalizar el dialogo
         self.row = row
-        print(self.row)
      
      }
     
@@ -427,7 +459,7 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
      
         saveButton.isEnabled = updateSaveButtonState()
      }
-     
+        
      //funcion con la que obtenemos los datos de de nuestro servidor
      func sendResponse(response: Any) -> Void {
      
@@ -488,9 +520,20 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
         let fec     = lbFecha.text!
         let hini    = lbInicio.text!
         let hfin    = lbFin.text!
-     
+        var imagen  = ""
+        
+        //Comprobamos que tenga imagen 
+        if ivActividad.image != nil {
+            
+            //Codificamos la imagen en base64
+            let imageData:Data = UIImagePNGRepresentation(ivActividad.image!)!
+            print(imageData)
+            imagen = imageData.base64EncodedString()
+            
+        }
+        
         //Insertamos la actividad en la BBDD de nuestro servidor
-        actividad = Actividad(id: 0, idProfesor: idP , idGrupo: idG , titulo: tit, descripcion: des, resumen:res, fecha: fec , horaInicio: hini , horaFin: hfin)
+        actividad = Actividad(id: 0, idProfesor: idP , idGrupo: idG , titulo: tit, descripcion: des, resumen:res, fecha: fec , horaInicio: hini , horaFin: hfin, imagen: imagen)
         
         let json  = actividad!.toJsonData()
         

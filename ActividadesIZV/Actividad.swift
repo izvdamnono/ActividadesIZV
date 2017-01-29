@@ -18,13 +18,14 @@ class Actividad {
     var fecha: String
     var horaInicio: String
     var horaFin: String
+    var imagen: String
     
     convenience init(){
         
-        self.init(id:0, idProfesor:0, idGrupo:0, titulo: "", descripcion: "", resumen:"", fecha: "", horaInicio: "", horaFin: "")
+        self.init(id:0, idProfesor:0, idGrupo:0, titulo: "", descripcion: "", resumen:"", fecha: "", horaInicio: "", horaFin: "", imagen: "")
     }
     
-    init(id: Int, idProfesor: Int , idGrupo: Int , titulo: String, descripcion: String , resumen: String , fecha: String , horaInicio: String , horaFin: String){
+    init(id: Int, idProfesor: Int , idGrupo: Int , titulo: String, descripcion: String , resumen: String , fecha: String , horaInicio: String , horaFin: String, imagen: String){
         self.id          = id
         self.idProfesor  = idProfesor
         self.idGrupo     = idGrupo
@@ -34,6 +35,7 @@ class Actividad {
         self.fecha       = fecha
         self.horaInicio  = horaInicio
         self.horaFin     = horaFin
+        self.imagen      = imagen
     }
     
     //Constructor utilizado para crear una actividad a partir de un json
@@ -47,7 +49,8 @@ class Actividad {
                 let resumen      = json["resumen"] as? String,
                 let fecha        = json["fecha"] as? String,
                 let horaInicio   = json["hini"] as? String,
-                let horaFin      = json["hfin"] as? String
+                let horaFin      = json["hfin"] as? String,
+                let imagen       = json["imagen"] as? String
         else
         {
             return nil
@@ -62,7 +65,7 @@ class Actividad {
         self.fecha       = fecha
         self.horaInicio  = horaInicio
         self.horaFin     = horaFin
-
+        self.imagen      = imagen
     }
     
     //Metodo utilizado para obtener un json de una actividad
@@ -78,7 +81,8 @@ class Actividad {
             "resumen" : self.resumen,
             "fecha" : self.fecha,
             "hini" : self.horaInicio,
-            "hfin" : self.horaFin
+            "hfin" : self.horaFin,
+            "imagen" : self.imagen
         ]
     }
 }
