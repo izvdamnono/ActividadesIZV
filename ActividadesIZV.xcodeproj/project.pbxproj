@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		ED4E1F9E1E3D29BF009E46DD /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4E1F9D1E3D29BF009E46DD /* MainTableViewController.swift */; };
 		ED4E1FA21E3D4D09009E46DD /* ActivityTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4E1FA11E3D4D09009E46DD /* ActivityTableViewController.swift */; };
+		ED4E1FA51E3E4FCB009E46DD /* ActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4E1FA41E3E4FCB009E46DD /* ActivityTableViewCell.swift */; };
 		EDBECA511E367BE70048B079 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBECA501E367BE70048B079 /* AppDelegate.swift */; };
 		EDBECA531E367BE70048B079 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBECA521E367BE70048B079 /* ViewController.swift */; };
 		EDBECA581E367BE70048B079 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDBECA571E367BE70048B079 /* Assets.xcassets */; };
@@ -44,6 +45,7 @@
 /* Begin PBXFileReference section */
 		ED4E1F9D1E3D29BF009E46DD /* MainTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
 		ED4E1FA11E3D4D09009E46DD /* ActivityTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityTableViewController.swift; sourceTree = "<group>"; };
+		ED4E1FA41E3E4FCB009E46DD /* ActivityTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityTableViewCell.swift; sourceTree = "<group>"; };
 		EDBECA4D1E367BE70048B079 /* ActividadesIZV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ActividadesIZV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDBECA501E367BE70048B079 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EDBECA521E367BE70048B079 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -90,6 +92,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		ED4E1FA31E3E4F73009E46DD /* Vistas Custom */ = {
+			isa = PBXGroup;
+			children = (
+				ED4E1FA41E3E4FCB009E46DD /* ActivityTableViewCell.swift */,
+			);
+			name = "Vistas Custom";
+			sourceTree = "<group>";
+		};
 		EDA5E9AA1E392E4A008E0F25 /* Controladores */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +132,7 @@
 		EDBECA4F1E367BE70048B079 /* ActividadesIZV */ = {
 			isa = PBXGroup;
 			children = (
+				ED4E1FA31E3E4F73009E46DD /* Vistas Custom */,
 				EDA5E9AA1E392E4A008E0F25 /* Controladores */,
 				EDC131521E38671500DF5C99 /* Protocolos */,
 				EDC131511E3866C600DF5C99 /* Clases */,
@@ -314,6 +325,7 @@
 				EDC131461E3865DD00DF5C99 /* Actividad.swift in Sources */,
 				EDBECA531E367BE70048B079 /* ViewController.swift in Sources */,
 				EDD5ADF91E39FE320074BECC /* Departamento.swift in Sources */,
+				ED4E1FA51E3E4FCB009E46DD /* ActivityTableViewCell.swift in Sources */,
 				EDC131501E3866B300DF5C99 /* Grupo.swift in Sources */,
 				EDC1314C1E38665F00DF5C99 /* SendResponse.swift in Sources */,
 				EDC131481E38660F00DF5C99 /* Api.swift in Sources */,

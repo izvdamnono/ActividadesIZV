@@ -30,6 +30,9 @@ class MainTableViewController: UITableViewController, SendResponse {
             
             self.api.connectToServer(path:"actividad", method:"GET", protocolo: self)
         }
+        
+        self.tableView.rowHeight            = UITableViewAutomaticDimension
+        self.tableView.estimatedRowHeight   = 200
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,23 +44,77 @@ class MainTableViewController: UITableViewController, SendResponse {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        
+        return actividades.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        
+        let idCell  = "ActivityTableViewCell"
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: idCell, for: indexPath) as? ActivityTableViewCell else {
+            
+            fatalError("Identificador erroneo o clase erronea")
+        }
+        
+        let actividad = actividades[indexPath.row]
+            
+        //Cargamos los datos
+            
+        if !actividad.imagen.isEmpty {
+                
+            let urlStr  = api.getPathAssets() + actividad.imagen
+            if let data = NSData(contentsOf: URL(string:urlStr)!){
+                    
+                cell.ivActividad.image = UIImage(data:data as Data)
+            }
+        }
+            /*if let catUrl = URL(string: urlStr) {
+                
+                //Creamos la conexion
+                let session = URLSession(configuration: .default)
+                let task    = session.dataTask(with: catUrl){
+                    
+                    (data,response,error) -> Void in
+                    
+                    if error != nil{
+                        
+                        print(error!.localizedDescription)
+                        return
+                    }
+                    
+                    if let imageData = data {
+                            
+                        cell.ivActividad.image = UIImage(data:imageData)
+                    }
+                    
+                    
+                }
+                
+                task.resume()
+                /*queue.async {
+                    
+                    task.resume()
+                }*/
+            }*/
+        
+        cell.lbTitulo.text      = actividad.titulo
+        cell.lbResumen.text     = actividad.resumen
+        cell.lbProfesor.text    = String(actividad.idProfesor)
+        cell.lbGrupo.text       = String(actividad.idGrupo)
+        cell.lbFecha.text       = actividad.fecha
+        cell.lbInicio.text      = actividad.horaInicio
+        cell.lbFin.text         = actividad.horaFin
+        
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -117,6 +174,19 @@ class MainTableViewController: UITableViewController, SendResponse {
 
     func sendResponse(response:Any) -> Void {
      
-        print(response)
+        if let activities = response as? [[String:Any]] {
+            
+            actividades = []
+            
+            for actividad in activities {
+                
+                actividades.append(Actividad(json:actividad)!)
+            }
+            
+            DispatchQueue.main.async{
+                
+                self.tableView.reloadData()
+            }
+        }
     }
 }

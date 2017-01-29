@@ -21,6 +21,15 @@ class Api {
         if !api.isEmpty    { self.api    = api }
     }
     
+    func getDomain() -> String {
+        
+        return scheme + "://" + domain
+    }
+    
+    func getPathAssets() -> String {
+        
+        return self.getDomain() + "/assets/img/"
+    }
     
     func connectToServer ( path: String, method: String, data: [String : Any] = [:], protocolo: SendResponse? = nil ) {
         
