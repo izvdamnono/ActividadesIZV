@@ -232,6 +232,9 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
      //Metodo utilizado para mostrar un dialogo cuyo elemento principal es un viewpicker
      func showViewPickerDialog() {
      
+        //Ocultamos el teclado
+        hideKeyboard()
+        
         let alertController = UIAlertController(title: "\n\n\n\n\n\n", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
      
         //Le damos un tamaño y una posicion especifica
@@ -254,11 +257,15 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
         DispatchQueue.main.async {
             self.present(alertController, animated: true, completion:{})
         }
+        
      }
      
      //Metodo que muestra un dialogo donde se selecciona una fecha u hora
      func showDatePickerDialog(){
-     
+        
+        //Ocultamos el teclado
+        hideKeyboard()
+        
         let alertController = UIAlertController(title: "\n\n\n\n\n\n", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
      
         let margin: CGFloat = 10.0
@@ -396,7 +403,7 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
         print(self.row)
      
      }
-     
+    
      //function to hide data in
      func textFieldShouldReturn(_ textField: UITextField) -> Bool {
      
@@ -533,5 +540,21 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
         }
      
         return true
+     }
+    
+     func hideKeyboard() -> Void {
+        
+        if tfTitulo.isFirstResponder {
+            
+            tfTitulo.resignFirstResponder()
+        }
+        else if tfResumen.isFirstResponder {
+            
+            tfResumen.resignFirstResponder()
+        }
+        else if tvDescripcion.isFirstResponder {
+            
+            tvDescripcion.resignFirstResponder()
+        }
      }
 }
