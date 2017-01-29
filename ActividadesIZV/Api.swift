@@ -22,7 +22,7 @@ class Api {
     }
     
     
-    func connectToServer ( path: String, method: String, data: [String : Any] = [:], protocolo: SendResponse ) {
+    func connectToServer ( path: String, method: String, data: [String : Any] = [:], protocolo: SendResponse? = nil ) {
         
         //Comprobamos que la URL generada sea correcta
         
@@ -68,7 +68,10 @@ class Api {
                         
                             if let conn = try JSONSerialization.jsonObject(with: data!) as? [Any] {
                              
-                                protocolo.sendResponse(response: conn)
+                                if protocolo != nil {
+                                    
+                                    protocolo!.sendResponse(response: conn)
+                                }
                             }
                         
                         
@@ -76,7 +79,10 @@ class Api {
                         
                             if let conn = try JSONSerialization.jsonObject(with: data!) as? [String: Any] {
                                 
-                                protocolo.sendResponse(response: conn)
+                                if protocolo != nil {
+                                    
+                                    protocolo!.sendResponse(response: conn)
+                                }
                             }
                         
                     }

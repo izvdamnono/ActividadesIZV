@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		ED4E1F9C1E3D022C009E46DD /* AddActividadTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4E1F9B1E3D022C009E46DD /* AddActividadTableViewController.swift */; };
+		ED4E1F9E1E3D29BF009E46DD /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4E1F9D1E3D29BF009E46DD /* MainTableViewController.swift */; };
+		ED4E1FA21E3D4D09009E46DD /* ActivityTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4E1FA11E3D4D09009E46DD /* ActivityTableViewController.swift */; };
 		EDBECA511E367BE70048B079 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBECA501E367BE70048B079 /* AppDelegate.swift */; };
 		EDBECA531E367BE70048B079 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDBECA521E367BE70048B079 /* ViewController.swift */; };
 		EDBECA581E367BE70048B079 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDBECA571E367BE70048B079 /* Assets.xcassets */; };
@@ -41,7 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		ED4E1F9B1E3D022C009E46DD /* AddActividadTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddActividadTableViewController.swift; sourceTree = "<group>"; };
+		ED4E1F9D1E3D29BF009E46DD /* MainTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
+		ED4E1FA11E3D4D09009E46DD /* ActivityTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityTableViewController.swift; sourceTree = "<group>"; };
 		EDBECA4D1E367BE70048B079 /* ActividadesIZV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ActividadesIZV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDBECA501E367BE70048B079 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EDBECA521E367BE70048B079 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -91,7 +93,8 @@
 		EDA5E9AA1E392E4A008E0F25 /* Controladores */ = {
 			isa = PBXGroup;
 			children = (
-				ED4E1F9B1E3D022C009E46DD /* AddActividadTableViewController.swift */,
+				ED4E1F9D1E3D29BF009E46DD /* MainTableViewController.swift */,
+				ED4E1FA11E3D4D09009E46DD /* ActivityTableViewController.swift */,
 			);
 			name = Controladores;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED4E1FA21E3D4D09009E46DD /* ActivityTableViewController.swift in Sources */,
 				EDC131461E3865DD00DF5C99 /* Actividad.swift in Sources */,
 				EDBECA531E367BE70048B079 /* ViewController.swift in Sources */,
 				EDD5ADF91E39FE320074BECC /* Departamento.swift in Sources */,
@@ -315,7 +319,7 @@
 				EDC131481E38660F00DF5C99 /* Api.swift in Sources */,
 				EDBECA511E367BE70048B079 /* AppDelegate.swift in Sources */,
 				EDC1314A1E38663500DF5C99 /* Profesor.swift in Sources */,
-				ED4E1F9C1E3D022C009E46DD /* AddActividadTableViewController.swift in Sources */,
+				ED4E1F9E1E3D29BF009E46DD /* MainTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
