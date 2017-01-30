@@ -349,15 +349,25 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
      }
      
      func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-     
+        
         switch pickerView.tag {
-     
+            
             case 0:
-                return departs[row].nombre
+                if row >= 0, row <= departs.count - 1 {
+                    return departs[row].nombre
+                }
+                return ""
+            
             case 1:
-                return teachers[row].nombre
+                if row >= 0, row <= teachers.count - 1 {
+                    return teachers[row].nombre
+                }
+                return ""
             case 2:
-                return groups[row].nombre
+                if row >= 0, row <= groups.count - 1 {
+                    return groups[row].nombre
+                }
+                return ""
             default:
                 return ""
         }
