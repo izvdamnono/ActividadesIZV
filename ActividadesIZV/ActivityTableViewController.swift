@@ -28,6 +28,8 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var ivActividad: UIImageView!
     
+    var changeImage   = false
+    
     //MARK: Pickers
     var viewPicker    = UIPickerView()
     var datePicker    = UIDatePicker()
@@ -258,6 +260,8 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
         }
         
         ivActividad.image = selectedImage
+        changeImage       = true
+        
         dismiss(animated:true, completion:{})
     }
     
@@ -523,11 +527,10 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
         var imagen  = ""
         
         //Comprobamos que tenga imagen 
-        if ivActividad.image != nil {
+        if changeImage {
             
             //Codificamos la imagen en base64
             let imageData:Data = UIImagePNGRepresentation(ivActividad.image!)!
-            print(imageData)
             imagen = imageData.base64EncodedString()
             
         }
