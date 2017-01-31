@@ -10,8 +10,8 @@ import Foundation
 
 class Actividad {
     var id: Int
-    var idProfesor: Int
-    var idGrupo: Int
+    var profesor: Profesor
+    var grupo: Grupo
     var titulo: String
     var descripcion: String
     var resumen: String
@@ -22,13 +22,13 @@ class Actividad {
     
     convenience init(){
         
-        self.init(id:0, idProfesor:0, idGrupo:0, titulo: "", descripcion: "", resumen:"", fecha: "", horaInicio: "", horaFin: "", imagen: "")
+        self.init(id:0, profesor: Profesor(), grupo: Grupo(), titulo: "", descripcion: "", resumen:"", fecha: "", horaInicio: "", horaFin: "", imagen: "")
     }
     
-    init(id: Int, idProfesor: Int , idGrupo: Int , titulo: String, descripcion: String , resumen: String , fecha: String , horaInicio: String , horaFin: String, imagen: String){
+    init(id: Int, profesor: Profesor , grupo: Grupo , titulo: String, descripcion: String , resumen: String , fecha: String , horaInicio: String , horaFin: String, imagen: String){
         self.id          = id
-        self.idProfesor  = idProfesor
-        self.idGrupo     = idGrupo
+        self.profesor    = profesor
+        self.grupo       = grupo
         self.titulo      = titulo
         self.descripcion = descripcion
         self.resumen     = resumen
@@ -42,8 +42,10 @@ class Actividad {
     init?(json: [String: Any]){
         
         guard   let id           = json["id"] as? Int,
-                let idProfesor   = json["idap"] as? Int,
-                let idGrupo      = json["idag"] as? Int,
+                let dictPro      = json["idap"] as? [String:Any],
+                let profesor     = Profesor(json: dictPro),
+                let dictGrp      = json["idag"] as? [String:Any],
+                let grupo        = Grupo(json: dictGrp),
                 let titulo       = json["titulo"] as? String,
                 let descripcion  = json["descripcion"] as? String,
                 let resumen      = json["resumen"] as? String,
@@ -57,8 +59,8 @@ class Actividad {
         }
         
         self.id          = id
-        self.idProfesor  = idProfesor
-        self.idGrupo     = idGrupo
+        self.profesor    = profesor
+        self.grupo       = grupo
         self.titulo      = titulo
         self.descripcion = descripcion
         self.resumen     = resumen
@@ -74,8 +76,8 @@ class Actividad {
         return [
             
             "id" : self.id,
-            "idap" : self.idProfesor,
-            "idag" : self.idGrupo,
+            "idap" : self.profesor.id,
+            "idag" : self.grupo.id,
             "titulo" : self.titulo,
             "descripcion" : self.descripcion,
             "resumen" : self.resumen,

@@ -31,14 +31,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image" translatesAutoresizingMaskIntoConstraints="NO" id="fbn-3D-oVe">
-                                                    <rect key="frame" x="251" y="0.0" width="124" height="124"/>
+                                                    <rect key="frame" x="235" y="0.0" width="124" height="124"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="fbn-3D-oVe" secondAttribute="height" multiplier="1:1" id="9FA-0T-Thf"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="fbn-3D-oVe" firstAttribute="trailing" secondItem="ceO-8j-OPV" secondAttribute="trailingMargin" constant="8" id="Sw9-Af-p5R"/>
+                                                <constraint firstItem="fbn-3D-oVe" firstAttribute="trailing" secondItem="ceO-8j-OPV" secondAttribute="trailingMargin" constant="-8" id="Sw9-Af-p5R"/>
                                                 <constraint firstItem="fbn-3D-oVe" firstAttribute="top" secondItem="ceO-8j-OPV" secondAttribute="top" id="ctX-ia-NkN"/>
                                                 <constraint firstAttribute="bottom" secondItem="fbn-3D-oVe" secondAttribute="bottom" id="mmI-G1-riO"/>
                                             </constraints>

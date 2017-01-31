@@ -68,10 +68,10 @@ class MainTableViewController: UITableViewController, SendResponse {
         let actividad = actividades[indexPath.row]
             
         //Cargamos los datos
-            
+        
+        cell.ivActividad.image = UIImage(named:"Image")
+        
         if !actividad.imagen.isEmpty {
-            
-            cell.ivActividad.image = nil
             
             let urlStr  = api.getPathAssets() + actividad.imagen
             if let data = NSData(contentsOf: URL(string:urlStr)!){
@@ -79,42 +79,15 @@ class MainTableViewController: UITableViewController, SendResponse {
                 cell.ivActividad.image = UIImage(data:data as Data)
             }
         }
-            /*if let catUrl = URL(string: urlStr) {
-                
-                //Creamos la conexion
-                let session = URLSession(configuration: .default)
-                let task    = session.dataTask(with: catUrl){
-                    
-                    (data,response,error) -> Void in
-                    
-                    if error != nil{
-                        
-                        print(error!.localizedDescription)
-                        return
-                    }
-                    
-                    if let imageData = data {
-                            
-                        cell.ivActividad.image = UIImage(data:imageData)
-                    }
-                    
-                    
-                }
-                
-                task.resume()
-                /*queue.async {
-                    
-                    task.resume()
-                }*/
-            }*/
         
-        cell.lbTitulo.text      = actividad.titulo
-        cell.lbResumen.text     = actividad.resumen
-        cell.lbProfesor.text    = String(actividad.idProfesor)
-        cell.lbGrupo.text       = String(actividad.idGrupo)
-        cell.lbFecha.text       = actividad.fecha
-        cell.lbInicio.text      = actividad.horaInicio
-        cell.lbFin.text         = actividad.horaFin
+        cell.lbTitulo.text          = actividad.titulo
+        cell.lbResumen.text         = actividad.resumen
+        cell.lbDepartamento.text    = actividad.profesor.departamento.nombre
+        cell.lbProfesor.text        = actividad.profesor.nombre
+        cell.lbGrupo.text           = actividad.grupo.nombre
+        cell.lbFecha.text           = actividad.fecha
+        cell.lbInicio.text          = actividad.horaInicio
+        cell.lbFin.text             = actividad.horaFin
         
         return cell
     }
@@ -224,6 +197,7 @@ class MainTableViewController: UITableViewController, SendResponse {
             queue.async {
                 
                 let json = actividad.toJsonData()
+                print("kkdepp")
                 self.api.connectToServer(path: "actividad", method: "POST", data: json, protocolo: self)
             }
             
@@ -233,6 +207,7 @@ class MainTableViewController: UITableViewController, SendResponse {
 
     func sendResponse(response:Any) -> Void {
      
+        print(response)
         if let activities = response as? [[String:Any]] {
             
             actividades = []

@@ -49,9 +49,9 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
     var actividad: Actividad?
     
     //MARK: Variables que almacenan el id del profesor, departamento y grupo de la actividad
-    var idProfesor     = 0
-    var idDepartamento = 0
-    var idGrupo        = 0
+    var profesor     = Profesor()
+    var departamento = Departamento()
+    var grupo        = Grupo()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,9 +102,6 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
             self.api.connectToServer(path:"profesor", method:"GET", protocolo: self)
             self.api.connectToServer(path:"grupo", method:"GET", protocolo: self)
          }
-         
-         //Deshabilitamos el boton
-         saveButton.isEnabled = updateSaveButtonState()
         
         //Cargamos los datos si los tiene
         if let act = actividad {
@@ -123,12 +120,23 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
             tfTitulo.text       = act.titulo
             tfResumen.text      = act.resumen
             tvDescripcion.text  = act.descripcion
+            lbDepartamento.text = act.profesor.departamento.nombre
+            lbProfesor.text     = act.profesor.nombre
+            lbGrupo.text        = act.grupo.nombre
             lbFecha.text        = act.fecha
             lbInicio.text       = act.horaInicio
             lbFin.text          = act.horaFin
             
-            //Los datos consltados sobre el departamento y el profesor debemos de buscarlos en el servidor
+            //Inicializamos los elementos seleccionados
+            departamento = act.profesor.departamento
+            profesor     = act.profesor
+            grupo        = act.grupo
+            
         }
+        
+        //Deshabilitamos el boton
+        saveButton.isEnabled = updateSaveButtonState()
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -419,7 +427,7 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
                 lbDepartamento.text = departs[row].nombre
                 let path = "departamento/" + String(departs[row].id) + "/profesor"
      
-                idDepartamento = departs[row].id
+                departamento = departs[row]
      
                 queue.async {
                     self.api.connectToServer(path: path, method: "GET", protocolo: self)
@@ -427,11 +435,11 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
      
             case 1:
                 lbProfesor.text = teachers[row].nombre
-                idProfesor      = teachers[row].id
+                profesor        = teachers[row]
      
             case 2:
                 lbGrupo.text    = groups[row].nombre
-                idGrupo         = groups[row].id
+                grupo           = groups[row]
      
             default:
                 break
@@ -532,12 +540,6 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
      
                 let profesor = Profesor(json:teacher)!
                 
-                if let act = actividad, act.idProfesor == profesor.id {
-                
-                    lbProfesor.text     = profesor.nombre
-
-                }
-                
                 teacherAux.append(profesor)
             }
      
@@ -555,11 +557,6 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
             for group in arrayR {
                 
                 let grupo = Grupo(json: group)!
-                
-                if let act = actividad, act.idGrupo == grupo.id {
-                    
-                    lbGrupo.text = grupo.nombre
-                }
                 
                 groups.append(grupo)
             }
@@ -591,8 +588,8 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
         let tit     = tfTitulo.text!
         let res     = tfResumen.text!
         let des     = tvDescripcion.text ?? ""
-        let idP     = self.idProfesor
-        let idG     = self.idGrupo
+        let pro     = self.profesor
+        let grp     = self.grupo
         let fec     = lbFecha.text!
         let hini    = lbInicio.text!
         let hfin    = lbFin.text!
@@ -608,7 +605,7 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
         }
         
         //Insertamos la actividad en la BBDD de nuestro servidor
-        actividad = Actividad(id: id, idProfesor: idP , idGrupo: idG , titulo: tit, descripcion: des, resumen:res, fecha: fec , horaInicio: hini , horaFin: hfin, imagen: imagen)
+        actividad = Actividad(id: id, profesor: pro, grupo: grp, titulo: tit, descripcion: des, resumen:res, fecha: fec, horaInicio: hini , horaFin: hfin, imagen: imagen)
         
         /*let json  = actividad!.toJsonData()
         
@@ -625,17 +622,21 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
         if tfTitulo.text == nil || tfResumen.text == nil {return false}
      
         //Comprobamos que el profesor elegido sea del departamento seleccionado
-        if idGrupo == 0 || idProfesor == 0 || idDepartamento == 0 { return false }
+        if grupo.id == 0 || profesor.id == 0 || departamento.id == 0 { return false }
         
         var exists = false
      
-        for teacher in teachers {
+        if profesor.departamento.id == departamento.id {
+            
+            exists = true
+        }
+        /*for teacher in teachers {
      
-            if teacher.id == idProfesor, teacher.idDep == idDepartamento {
+            if teacher.id == profesor.id, teacher.departamento.id == departamento.id {
                 exists = true
                 break
             }
-        }
+        }*/
      
         if !exists {return false}
         

@@ -10,8 +10,13 @@ import Foundation
 class Grupo {
     
     //Por defecto tienen dichos valores
-    var id      = 0
-    var nombre  = ""
+    var id:Int
+    var nombre:String
+    
+    convenience init(){
+        
+        self.init(idGrupo: 0, nombreGrupo: "")
+    }
     
     //Constructor utilizado para la creacion de un objeto con ciertos datos
     init( idGrupo id: Int, nombreGrupo nombre: String){
