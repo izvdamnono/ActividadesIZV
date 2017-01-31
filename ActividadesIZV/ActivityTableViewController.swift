@@ -105,6 +105,30 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
          
          //Deshabilitamos el boton
          saveButton.isEnabled = updateSaveButtonState()
+        
+        //Cargamos los datos si los tiene
+        if let act = actividad {
+            
+            navigationItem.title = act.titulo
+            
+            if !act.imagen.isEmpty {
+                
+                let urlStr  = api.getPathAssets() + act.imagen
+                if let data = NSData(contentsOf: URL(string:urlStr)!){
+                    
+                    ivActividad.image = UIImage(data:data as Data)
+                }
+            }
+            
+            tfTitulo.text       = act.titulo
+            tfResumen.text      = act.resumen
+            tvDescripcion.text  = act.descripcion
+            lbFecha.text        = act.fecha
+            lbInicio.text       = act.horaInicio
+            lbFin.text          = act.horaFin
+            
+            //Los datos consltados sobre el departamento y el profesor debemos de buscarlos en el servidor
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -113,7 +137,20 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
     }
      
     @IBAction func cancel(_ sender: UIBarButtonItem) {
-        dismiss(animated:true, completion:{})
+        
+        let isPresenting = presentingViewController is UINavigationController
+        
+        if isPresenting {
+            
+            dismiss(animated: true, completion: {})
+        }
+        else if let owningNavigation = navigationController {
+            
+            owningNavigation.popViewController(animated: true)
+        }
+        else {
+            fatalError("ActivityController no esta dentro de la navegacion")
+        }
     }
      
      // MARK: - Table view data source
@@ -248,7 +285,7 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        
+    
         dismiss(animated:true, completion:{})
     }
     
@@ -493,7 +530,15 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
      
             for teacher in arrayR {
      
-                teacherAux.append(Profesor(json:teacher)!)
+                let profesor = Profesor(json:teacher)!
+                
+                if let act = actividad, act.idProfesor == profesor.id {
+                
+                    lbProfesor.text     = profesor.nombre
+
+                }
+                
+                teacherAux.append(profesor)
             }
      
             teachers = teacherAux
@@ -508,8 +553,15 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
         } else if Grupo(json:element) != nil {
      
             for group in arrayR {
-     
-                groups.append(Grupo(json:group)!)
+                
+                let grupo = Grupo(json: group)!
+                
+                if let act = actividad, act.idGrupo == grupo.id {
+                    
+                    lbGrupo.text = grupo.nombre
+                }
+                
+                groups.append(grupo)
             }
         }
      
@@ -526,6 +578,16 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
         }
         
         //Almacenamos los datos de la actividad
+        
+        var id      = 0
+        var imagen  = ""
+        
+        if actividad != nil {
+            
+           id       = actividad!.id
+           imagen   = actividad!.imagen
+        }
+        
         let tit     = tfTitulo.text!
         let res     = tfResumen.text!
         let des     = tvDescripcion.text ?? ""
@@ -534,7 +596,7 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
         let fec     = lbFecha.text!
         let hini    = lbInicio.text!
         let hfin    = lbFin.text!
-        var imagen  = ""
+        
         
         //Comprobamos que tenga imagen 
         if changeImage {
@@ -546,14 +608,14 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
         }
         
         //Insertamos la actividad en la BBDD de nuestro servidor
-        actividad = Actividad(id: 0, idProfesor: idP , idGrupo: idG , titulo: tit, descripcion: des, resumen:res, fecha: fec , horaInicio: hini , horaFin: hfin, imagen: imagen)
+        actividad = Actividad(id: id, idProfesor: idP , idGrupo: idG , titulo: tit, descripcion: des, resumen:res, fecha: fec , horaInicio: hini , horaFin: hfin, imagen: imagen)
         
-        let json  = actividad!.toJsonData()
+        /*let json  = actividad!.toJsonData()
         
         queue.async {
             
             self.api.connectToServer(path:"actividad", method:"POST", data: json)
-        }
+        }*/
         
      }
      

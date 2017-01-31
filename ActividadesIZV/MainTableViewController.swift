@@ -15,7 +15,9 @@ class MainTableViewController: UITableViewController, SendResponse {
     let queue   = DispatchQueue(label:"SelAct", attributes: .concurrent)
     
     //MARK: Actividades
-    var actividades = [] as [Actividad]
+    var actividades              = [] as [Actividad]
+    var actividadAux: Actividad? = nil
+    var modifyServer             = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,8 +33,8 @@ class MainTableViewController: UITableViewController, SendResponse {
             self.api.connectToServer(path:"actividad", method:"GET", protocolo: self)
         }
         
-        self.tableView.rowHeight            = UITableViewAutomaticDimension
-        self.tableView.estimatedRowHeight   = 200
+        /*self.tableView.rowHeight            = UITableViewAutomaticDimension
+        self.tableView.estimatedRowHeight   = 125*/
     }
 
     override func didReceiveMemoryWarning() {
@@ -68,10 +70,12 @@ class MainTableViewController: UITableViewController, SendResponse {
         //Cargamos los datos
             
         if !actividad.imagen.isEmpty {
-                
+            
+            cell.ivActividad.image = nil
+            
             let urlStr  = api.getPathAssets() + actividad.imagen
             if let data = NSData(contentsOf: URL(string:urlStr)!){
-                    
+                
                 cell.ivActividad.image = UIImage(data:data as Data)
             }
         }
@@ -151,25 +155,80 @@ class MainTableViewController: UITableViewController, SendResponse {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        super.prepare(for: segue, sender: sender)
+        
+        switch(segue.identifier ?? "") {
+            
+            case "AddActivity":
+                print("Nueva Actividad")
+            
+            case "ShowActivity":
+                
+                guard let activityDetailController = segue.destination as? ActivityTableViewController else {
+                    fatalError("Destino incorrecto")
+                }
+            
+                guard let selectedCell = sender as? ActivityTableViewCell else {
+                    
+                    fatalError("Sender inesperado")
+                }
+            
+                guard let indexPath = tableView.indexPath(for: selectedCell) else {
+                    
+                    fatalError("La columna seleccionada no esta en la tabla")
+                }
+                
+                activityDetailController.actividad = actividades[indexPath.row]
+            
+            default: fatalError("Incorrecto identificador")
+            
+        }
     }
-    */
+ 
     
-    @IBAction func unwindToActivityList(sender: UIStoryboardSegue) {
-      
+    @IBAction func unwindToActivityList(sender: UIStoryboardSegue){
         
         guard let controller = sender.source as? ActivityTableViewController, let actividad = controller.actividad else {
             
             return
         }
         
-        print(actividad)
+        actividadAux = actividad
+        
+        if let selectedIndexPath = tableView.indexPathForSelectedRow {
+            
+            //Actualizamos una actividad
+            queue.async {
+                
+                let path = "actividad/" + String(actividad.id)
+                let json = actividad.toJsonData()
+                
+                self.api.connectToServer(path: path, method: "PUT", data: json, protocolo: self)
+            }
+            
+            modifyServer = 1
+            
+        }
+        else{
+            
+            //Añadimos una actividad
+            
+            queue.async {
+                
+                let json = actividad.toJsonData()
+                self.api.connectToServer(path: "actividad", method: "POST", data: json, protocolo: self)
+            }
+            
+            modifyServer = 0
+        }
     }
 
     func sendResponse(response:Any) -> Void {
@@ -188,5 +247,38 @@ class MainTableViewController: UITableViewController, SendResponse {
                 self.tableView.reloadData()
             }
         }
+        else if let responseServer = response as? [String: Any] {
+            
+            if let codigo = responseServer["response"] as? String, codigo == "ok" {
+                
+                switch modifyServer {
+                    
+                    case 0:
+                        //Insertamos
+                        let newIndexPath = IndexPath(row: actividades.count, section: 0)
+                    
+                        actividades.append(actividadAux!)
+                        tableView.insertRows(at: [newIndexPath], with: .automatic)
+                    
+                    case 1:
+                        //Actualizamos
+                        if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                        
+                            actividades[selectedIndexPath.row] = actividadAux!
+                            tableView.reloadRows(at: [selectedIndexPath], with: .none)
+                        }
+                    
+                    case 2:
+                        //Eliminamos
+                        print("kk")
+                    
+                    default: return
+                }
+                
+                actividadAux = nil
+            }
+        }
+        
     }
+    
 }
