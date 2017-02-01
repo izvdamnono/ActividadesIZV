@@ -98,9 +98,9 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
          //inicializamos los datos
          queue.async{
          
-            self.api.connectToServer(path:"departamento", method:"GET", protocolo: self)
-            self.api.connectToServer(path:"profesor", method:"GET", protocolo: self)
-            self.api.connectToServer(path:"grupo", method:"GET", protocolo: self)
+            self.api.connectToServer(path:"departamento/", method:"GET", protocolo: self)
+            self.api.connectToServer(path:"profesor/", method:"GET", protocolo: self)
+            self.api.connectToServer(path:"grupo/", method:"GET", protocolo: self)
          }
         
         //Cargamos los datos si los tiene
@@ -424,22 +424,34 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
      
             case 0:
                 //Recargamos los profesores del departamento seleccionado
-                lbDepartamento.text = departs[row].nombre
-                let path = "departamento/" + String(departs[row].id) + "/profesor"
-     
-                departamento = departs[row]
-     
-                queue.async {
-                    self.api.connectToServer(path: path, method: "GET", protocolo: self)
+                if row >= 0, row <= departs.count - 1 {
+                    
+                    lbDepartamento.text = departs[row].nombre
+                    let path = "departamento/" + String(departs[row].id) + "/profesor"
+                    
+                    departamento = departs[row]
+                    
+                    queue.async {
+                        self.api.connectToServer(path: path, method: "GET", protocolo: self)
+                    }
                 }
+            
      
             case 1:
-                lbProfesor.text = teachers[row].nombre
-                profesor        = teachers[row]
+                
+                if row >= 0, row <= teachers.count - 1 {
+                    
+                    lbProfesor.text = teachers[row].nombre
+                    profesor        = teachers[row]
+                }
      
             case 2:
-                lbGrupo.text    = groups[row].nombre
-                grupo           = groups[row]
+                
+                if row >= 0, row <= teachers.count - 1 {                    
+                    
+                    lbGrupo.text    = groups[row].nombre
+                    grupo           = groups[row]
+                }
      
             default:
                 break
@@ -522,6 +534,7 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
      //funcion con la que obtenemos los datos de de nuestro servidor
      func sendResponse(response: Any) -> Void {
      
+        print(response)
         guard   let arrayR = response as? [[String:Any]],
                 arrayR.count > 0
             else {

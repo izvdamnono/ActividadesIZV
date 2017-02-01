@@ -12,7 +12,7 @@ class Api {
     
     var scheme  = "https"
     var domain  = "iosapplication-fernan13.c9users.io"
-    var api     = "api_pruebas"
+    var api     = "api"
     
     init ( scheme : String = "", domain: String = "", api: String = "" ) {
         
@@ -75,7 +75,7 @@ class Api {
                         
                         case "GET":
                         
-                            if let conn = try JSONSerialization.jsonObject(with: data!) as? [Any] {
+                            if let conn = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [Any] {
                              
                                 if protocolo != nil {
                                     
@@ -85,8 +85,8 @@ class Api {
                         
                         
                         default :
-                        
-                            if let conn = try JSONSerialization.jsonObject(with: data!) as? [String: Any] {
+                            
+                            if let conn = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any] {
                                 
                                 if protocolo != nil {
                                     

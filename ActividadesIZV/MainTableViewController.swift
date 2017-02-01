@@ -17,7 +17,7 @@ class MainTableViewController: UITableViewController, SendResponse {
     //MARK: Actividades
     var actividades              = [] as [Actividad]
     var actividadAux: Actividad? = nil
-    var modifyServer             = -1
+    var modifyServer             = [:] as [String : Any]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +30,7 @@ class MainTableViewController: UITableViewController, SendResponse {
         
         queue.async {
             
-            self.api.connectToServer(path:"actividad", method:"GET", protocolo: self)
+            self.api.connectToServer(path:"actividad/", method:"GET", protocolo: self)
         }
         
         /*self.tableView.rowHeight            = UITableViewAutomaticDimension
@@ -187,7 +187,7 @@ class MainTableViewController: UITableViewController, SendResponse {
                 self.api.connectToServer(path: path, method: "PUT", data: json, protocolo: self)
             }
             
-            modifyServer = 1
+            modifyServer = ["actualizar" : selectedIndexPath]
             
         }
         else{
@@ -197,11 +197,10 @@ class MainTableViewController: UITableViewController, SendResponse {
             queue.async {
                 
                 let json = actividad.toJsonData()
-                print("kkdepp")
                 self.api.connectToServer(path: "actividad", method: "POST", data: json, protocolo: self)
             }
             
-            modifyServer = 0
+            modifyServer = ["insertar": 0]
         }
     }
 
@@ -226,28 +225,21 @@ class MainTableViewController: UITableViewController, SendResponse {
             
             if let codigo = responseServer["response"] as? String, codigo == "ok" {
                 
-                switch modifyServer {
+                if let ins = modifyServer["insertar"] as? Int {
                     
-                    case 0:
-                        //Insertamos
-                        let newIndexPath = IndexPath(row: actividades.count, section: 0)
+                    let newIndexPath = IndexPath(row: actividades.count, section: 0)
                     
-                        actividades.append(actividadAux!)
-                        tableView.insertRows(at: [newIndexPath], with: .automatic)
+                    actividades.append(actividadAux!)
+                    tableView.insertRows(at: [newIndexPath], with: .automatic)
+
+                }
+                else if let indexPath = modifyServer["actualizar"] as? IndexPath {
                     
-                    case 1:
-                        //Actualizamos
-                        if let selectedIndexPath = tableView.indexPathForSelectedRow {
-                        
-                            actividades[selectedIndexPath.row] = actividadAux!
-                            tableView.reloadRows(at: [selectedIndexPath], with: .none)
-                        }
+                    actividades[indexPath.row] = actividadAux!
+                    tableView.reloadRows(at: [indexPath], with: .none)
+                }
+                else if let ins = modifyServer["eliminar"] as? Int{
                     
-                    case 2:
-                        //Eliminamos
-                        print("kk")
-                    
-                    default: return
                 }
                 
                 actividadAux = nil
