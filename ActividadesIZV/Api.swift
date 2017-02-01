@@ -31,7 +31,7 @@ class Api {
         return self.getDomain() + "/assets/img/"
     }
     
-    func connectToServer ( path: String, method: String, data: [String : Any] = [:], protocolo: SendResponse? = nil ) {
+    func connectToServer ( path: String, method: String, data: Any = [:], protocolo: SendResponse? = nil ) {
         
         //Comprobamos que la URL generada sea correcta
         
@@ -46,7 +46,7 @@ class Api {
             //Comprobamos si el metodo es PUT o POST para introducir correctamente el parámetro json
             switch method {
                 
-                case "POST", "PUT":
+                case "POST", "PUT", "DELETE":
                     
                     if let jsonData = try? JSONSerialization.data(withJSONObject: data, options: .prettyPrinted) {
                         

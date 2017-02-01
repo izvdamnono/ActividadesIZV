@@ -19,6 +19,10 @@ class MainTableViewController: UITableViewController, SendResponse {
     var actividadAux: Actividad? = nil
     var modifyServer             = [:] as [String : Any]
     
+    //Array donde se almacenan todas las actividades que se eliminaran
+    var actividadesDelete        = [] as [Actividad]
+    var rowsDelete               = [] as [Int]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -42,6 +46,55 @@ class MainTableViewController: UITableViewController, SendResponse {
         // Dispose of any resources that can be recreated.
     }
 
+    //MARK: Actions
+    
+    @IBAction func sender(_ sender: UIBarButtonItem) {
+        
+        self.tableView.setEditing( !self.tableView.isEditing, animated: true)
+        
+        if actividadesDelete.count > 0 {
+            
+            var dict = [] as [[String:Int]]
+            
+            for index in 0..<actividadesDelete.count {
+                
+                dict.append(["id":actividadesDelete[index].id])
+            }
+            
+            //LLamar a la api para que elimine las actividades seleccionadas
+            queue.async{
+                self.api.connectToServer(path: "actividad/", method: "DELETE", data: dict, protocolo: self)
+            }
+            
+            modifyServer = ["eliminar" : 0]
+        }
+
+    }
+    
+    //Utilizado para habilitar la seleccion multiple sin llamar al metodo prepare
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        
+        return !self.tableView.isEditing
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        for index in 0..<actividadesDelete.count {
+            
+            if actividadesDelete[index] === actividades[indexPath.row]{
+                
+                rowsDelete.remove(at: index)
+                actividadesDelete.remove(at: index)
+                return
+            }
+        }
+        
+        rowsDelete.append(indexPath.row)
+        actividadesDelete.append(actividades[indexPath.row])
+        
+        
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -101,17 +154,17 @@ class MainTableViewController: UITableViewController, SendResponse {
     }
     */
 
-    /*
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    /*override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
+        }
+        
+    }*/
+    
 
     /*
     // Override to support rearranging the table view.
@@ -206,7 +259,6 @@ class MainTableViewController: UITableViewController, SendResponse {
 
     func sendResponse(response:Any) -> Void {
      
-        print(response)
         if let activities = response as? [[String:Any]] {
             
             actividades = []
@@ -240,6 +292,19 @@ class MainTableViewController: UITableViewController, SendResponse {
                 }
                 else if let ins = modifyServer["eliminar"] as? Int{
                     
+                    //Eliminamos las filas
+                    for index in 0..<rowsDelete.count {
+                        
+                        actividades.remove(at: index)
+                    }
+                    
+                    actividadesDelete = []
+                    rowsDelete        = []
+                    
+                    DispatchQueue.main.async {
+                        
+                        self.tableView.reloadData()
+                    }
                 }
                 
                 actividadAux = nil

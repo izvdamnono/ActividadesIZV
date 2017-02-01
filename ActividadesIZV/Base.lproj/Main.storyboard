@@ -341,7 +341,7 @@
         <scene sceneID="8ib-F4-6pG">
             <objects>
                 <tableViewController id="Vha-NO-Lvn" customClass="MainTableViewController" customModule="ActividadesIZV" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="150" sectionHeaderHeight="28" sectionFooterHeight="28" id="I5C-7B-lPs">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" allowsMultipleSelection="YES" allowsMultipleSelectionDuringEditing="YES" rowHeight="150" sectionHeaderHeight="28" sectionFooterHeight="28" id="I5C-7B-lPs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -474,7 +474,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Actividades" id="PN4-BH-V5i">
-                        <barButtonItem key="leftBarButtonItem" systemItem="trash" id="zkf-Ra-eyj"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="trash" id="zkf-Ra-eyj">
+                            <connections>
+                                <action selector="sender:" destination="Vha-NO-Lvn" id="HRH-Tv-v5k"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Qc2-VZ-38m">
                             <connections>
                                 <segue destination="Om7-xB-RR7" kind="presentation" identifier="AddActivity" id="0Mo-cr-ax6"/>
