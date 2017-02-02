@@ -661,7 +661,7 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
         formatterH.dateFormat = "HH:mm:ss"
         formatterH.locale     = NSLocale(localeIdentifier: "en_US_POSIX") as Locale
         
-        guard   let fecha = formatterF.date(from: lbFecha.text!),
+        guard   let _ = formatterF.date(from: lbFecha.text!),
                 let hini = lbInicio.text,
                 let hfin = lbFin.text,
                 let dateini = formatterH.date(from: hini),

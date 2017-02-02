@@ -9,6 +9,7 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -479,11 +480,18 @@
                                 <action selector="sender:" destination="Vha-NO-Lvn" id="HRH-Tv-v5k"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Qc2-VZ-38m">
-                            <connections>
-                                <segue destination="Om7-xB-RR7" kind="presentation" identifier="AddActivity" id="0Mo-cr-ax6"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="Qc2-VZ-38m">
+                                <connections>
+                                    <segue destination="Om7-xB-RR7" kind="presentation" identifier="AddActivity" id="0Mo-cr-ax6"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="search" id="7mG-0k-8OC">
+                                <connections>
+                                    <action selector="searchClick:" destination="Vha-NO-Lvn" id="4A8-cD-juX"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MSj-lf-btA" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainTableViewController: UITableViewController, SendResponse {
+class MainTableViewController: UITableViewController, SendResponse, UISearchControllerDelegate, UISearchResultsUpdating {
 
     //MARK: Objetos conexion
     let api     = Api()
@@ -22,6 +22,9 @@ class MainTableViewController: UITableViewController, SendResponse {
     //Array donde se almacenan todas las actividades que se eliminaran
     var actividadesDelete        = [] as [Actividad]
     var rowsDelete               = [] as [Int]
+    
+    //Barra de Busqueda
+    var searchController         = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +42,9 @@ class MainTableViewController: UITableViewController, SendResponse {
         
         /*self.tableView.rowHeight            = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight   = 125*/
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        definesPresentationContext = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -47,6 +53,10 @@ class MainTableViewController: UITableViewController, SendResponse {
     }
 
     //MARK: Actions
+        
+    @IBAction func searchClick(_ sender: UIBarButtonItem) {
+        self.tableView.tableHeaderView = searchController.searchBar
+    }
     
     @IBAction func sender(_ sender: UIBarButtonItem) {
         
@@ -61,8 +71,6 @@ class MainTableViewController: UITableViewController, SendResponse {
                 dict.append(["id":actividad.id])
             }
             
-            print(dict)
-            print(rowsDelete)
             //LLamar a la api para que elimine las actividades seleccionadas
             queue.async{
                 self.api.connectToServer(path: "actividad/", method: "DELETE", data: dict, protocolo: self)
@@ -71,6 +79,10 @@ class MainTableViewController: UITableViewController, SendResponse {
             modifyServer = ["eliminar" : 0]
         }
 
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        print("Hola")
     }
     
     //Utilizado para habilitar la seleccion multiple sin llamar al metodo prepare
@@ -285,7 +297,7 @@ class MainTableViewController: UITableViewController, SendResponse {
             
             if let codigo = responseServer["response"] as? String, codigo == "ok" {
                 
-                if let ins = modifyServer["insertar"] as? Int {
+                if modifyServer["insertar"] != nil {
                     
                     let newIndexPath = IndexPath(row: actividades.count, section: 0)
                     
@@ -298,7 +310,7 @@ class MainTableViewController: UITableViewController, SendResponse {
                     actividades[indexPath.row] = actividadAux!
                     tableView.reloadRows(at: [indexPath], with: .none)
                 }
-                else if let ins = modifyServer["eliminar"] as? Int{
+                else if modifyServer["eliminar"] != nil {
                     
                     /**
                      *  Se realiza de esta forma para evitar un error de fuera de rango
