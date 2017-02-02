@@ -71,6 +71,7 @@ class Api {
                 
                 do {
                     
+                    print(response)
                     switch method {
                         
                         case "GET":
@@ -85,7 +86,7 @@ class Api {
                         
                         
                         default :
-                            
+                            print(data!)
                             if let conn = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any] {
                                 
                                 if protocolo != nil {

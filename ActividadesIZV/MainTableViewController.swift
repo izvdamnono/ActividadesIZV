@@ -56,11 +56,13 @@ class MainTableViewController: UITableViewController, SendResponse {
             
             var dict = [] as [[String:Int]]
             
-            for index in 0..<actividadesDelete.count {
+            for actividad in actividadesDelete {
                 
-                dict.append(["id":actividadesDelete[index].id])
+                dict.append(["id":actividad.id])
             }
             
+            print(dict)
+            print(rowsDelete)
             //LLamar a la api para que elimine las actividades seleccionadas
             queue.async{
                 self.api.connectToServer(path: "actividad/", method: "DELETE", data: dict, protocolo: self)
@@ -77,22 +79,28 @@ class MainTableViewController: UITableViewController, SendResponse {
         return !self.tableView.isEditing
     }
     
+    //Metodo que se llama cuando se selecciona una celda
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        for index in 0..<actividadesDelete.count {
-            
-            if actividadesDelete[index] === actividades[indexPath.row]{
-                
-                rowsDelete.remove(at: index)
-                actividadesDelete.remove(at: index)
-                return
-            }
-        }
         
         rowsDelete.append(indexPath.row)
         actividadesDelete.append(actividades[indexPath.row])
         
         
+    }
+    
+    //Metodo utilizado cuando se deselecciona una celda
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        
+        for index in 0..<actividadesDelete.count {
+            
+            if actividadesDelete[index] === actividades[indexPath.row] {
+                
+                actividadesDelete.remove(at:index)
+                rowsDelete.remove(at:index)
+                
+                return
+            }
+        }
     }
     
     // MARK: - Table view data source
@@ -292,10 +300,28 @@ class MainTableViewController: UITableViewController, SendResponse {
                 }
                 else if let ins = modifyServer["eliminar"] as? Int{
                     
-                    //Eliminamos las filas
-                    for index in 0..<rowsDelete.count {
+                    /**
+                     *  Se realiza de esta forma para evitar un error de fuera de rango
+                     *  Este ocurria cuando se intentaba eliminar dos elementos separados
+                     *  siendo uno de ellos el ultimo
+                     */
+                    if rowsDelete.count == actividades.count {
                         
-                        actividades.remove(at: index)
+                        actividades.removeAll()
+                    }
+                    else {
+                        
+                        //Eliminamos las filas
+                        for index in 0..<rowsDelete.count {
+                            
+                            switch rowsDelete[index]{
+                                
+                                case actividades.endIndex:
+                                    actividades.removeLast()
+                                default:
+                                    actividades.remove(at: rowsDelete[index])
+                            }
+                        }
                     }
                     
                     actividadesDelete = []
