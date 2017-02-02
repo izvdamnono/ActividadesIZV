@@ -16,6 +16,7 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchCont
     
     //MARK: Actividades
     var actividades              = [] as [Actividad]
+    var actividadesF:[Actividad]?
     var actividadAux: Actividad? = nil
     var modifyServer             = [:] as [String : Any]
     
@@ -25,6 +26,8 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchCont
     
     //Barra de Busqueda
     var searchController         = UISearchController(searchResultsController: nil)
+    var scopes                   = ["Profesor", "Fecha"]
+    var scopesInt                = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +48,7 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchCont
         searchController.searchBar.delegate = self
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.scopeButtonTitles = scopes
         definesPresentationContext = true
     }
 
@@ -66,11 +70,12 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchCont
         
     }
     
-    
+    //Metodo sobreescrito para poder tomar nosotros el control de nuestra barra de busqueda
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        print("Cancel")
+        
         self.tableView.tableHeaderView = nil
         searchController.isActive = false
+        actividadesF = nil
         
         DispatchQueue.main.async {
             self.searchController.resignFirstResponder()
@@ -101,9 +106,21 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchCont
 
     }
     
+    //Metodo que se llama cuando cambia el texto del campo de texto de la barra de busqueda
     func updateSearchResults(for searchController: UISearchController) {
-        print("Hola")
+    
+        if let searchText = searchController.searchBar.text, !searchText.isEmpty {
+            
+            actividadesF = actividades.filter( {($0 as Actividad).profesor.nombre == searchText})
+            print(actividadesF!)
+        }
         
+    }
+    
+    //Metodo que se llama cuando se selecciona un boton del scope bar
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+       
+        scopesInt = selectedScope
     }
     
     //Utilizado para habilitar la seleccion multiple sin llamar al metodo prepare
@@ -146,7 +163,15 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchCont
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         
-        return actividades.count
+        if actividadesF != nil {
+            
+            return actividadesF!.count
+        }
+        else
+        {
+            
+            return actividades.count
+        }
     }
 
     
