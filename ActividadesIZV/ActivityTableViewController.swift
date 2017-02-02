@@ -132,6 +132,10 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
             profesor     = act.profesor
             grupo        = act.grupo
             
+            let formatter        = DateFormatter()
+            formatter.dateFormat = "YYYY-MM-dd"
+            datePicker.date      = formatter.date(from: act.fecha)!
+            
         }
         
         //Deshabilitamos el boton

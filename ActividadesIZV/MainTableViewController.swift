@@ -27,7 +27,6 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
     //Barra de Busqueda
     var searchController         = UISearchController(searchResultsController: nil)
     var scopes                   = ["Profesor", "Fecha"]
-    var scopesInt                = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +36,7 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
+
         queue.async {
             
             self.api.connectToServer(path:"actividad/", method:"GET", protocolo: self)
@@ -50,15 +49,15 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.scopeButtonTitles = scopes
         definesPresentationContext = true
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     //MARK: Actions
-        
     @IBAction func searchClick(_ sender: UIBarButtonItem) {
         
         self.tableView.tableHeaderView = searchController.searchBar
@@ -81,6 +80,14 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
             self.searchController.resignFirstResponder()
         }
         
+    }
+    
+    
+    @IBAction func refreshData(_ sender: UIBarButtonItem) {
+        
+        queue.async{
+            self.api.connectToServer(path:"actividad/", method:"GET", protocolo: self)
+        }
     }
     
     @IBAction func sender(_ sender: UIBarButtonItem) {
@@ -107,10 +114,18 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
     }
     
     //Metodo que se llama cuando cambia el texto del campo de texto de la barra de busqueda
-    func filterContentForSearchText(searchText:String){
+    func filterContentForSearchText(searchText:String, scopeIndex:Int ){
         
         
-        actividadesF = actividades.filter({$0.profesor.nombre.range(of: searchText, options: .caseInsensitive) != nil})
+        switch scopeIndex {
+            
+            case 0:
+                actividadesF = actividades.filter({$0.profesor.nombre.range(of: searchText, options: .caseInsensitive) != nil})
+            case 1:
+                actividadesF = actividades.filter({$0.fecha == searchText})
+            
+            default: return
+        }
         
         DispatchQueue.main.async{
             
@@ -118,11 +133,70 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
         }
     }
     
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        
+        if searchBar.selectedScopeButtonIndex == 1 {
+            
+            showDatePickerDialog()
+            return false
+        }
+        
+        return true
+    }
     
-    //Metodo que se llama cuando se selecciona un boton del scope bar
+    //Metodo que muestra un dialogo donde se selecciona una fecha u hora
+    func showDatePickerDialog(){
+        
+        let datePicker              = UIDatePicker()
+        datePicker.timeZone         = NSTimeZone.local
+        datePicker.datePickerMode   = .date
+        
+        if !searchController.searchBar.text!.isEmpty && searchController.isActive {
+            
+            let formatter               = DateFormatter()
+            formatter.dateFormat        = "YYYY-MM-dd"
+            datePicker.date             = formatter.date(from:searchController.searchBar.text!)!
+        }
+        
+        let alertController     = UIAlertController(title: "\n\n\n\n\n\n", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let margin: CGFloat = 10.0
+        
+        datePicker.bounds.size.width  = alertController.view.bounds.size.width - margin * 4.0
+        datePicker.bounds.size.height = 125
+        datePicker.transform = CGAffineTransform(translationX: 35, y: -25)
+        
+        alertController.view.addSubview(datePicker)
+        
+        let done = UIAlertAction(title: "Seleccionar", style: .default, handler: {(alert: UIAlertAction!) in self.filterContentByDate(date: datePicker.date)})
+        
+        let cancel = UIAlertAction(title: "Cancelar", style: .cancel, handler: {(alert: UIAlertAction!) in print("cancel")})
+        
+        alertController.addAction(done)
+        alertController.addAction(cancel)
+        
+        DispatchQueue.main.async {
+            self.present(alertController, animated: true, completion:{})
+        }
+        
+    }
+    
+    func filterContentByDate(date: Date){
+        
+        let formatter           = DateFormatter()
+        formatter.dateFormat    = "YYYY-MM-dd"
+        
+        searchController.searchBar.text = formatter.string(from: date)
+        self.updateSearchResults(for: searchController)
+        
+    }
+    
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-       
-        scopesInt = selectedScope
+        
+        if !searchBar.text!.isEmpty {
+            
+            searchBar.text = ""
+        }
     }
     
     //Utilizado para habilitar la seleccion multiple sin llamar al metodo prepare
@@ -327,7 +401,23 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
                 self.api.connectToServer(path: path, method: "PUT", data: json, protocolo: self)
             }
             
-            modifyServer = ["actualizar" : selectedIndexPath]
+            if searchController.isActive && !searchController.searchBar.text!.isEmpty {
+                
+                let idA = actividad.id
+                
+                for index in 0..<actividades.count {
+                    
+                    if actividades[index].id == idA {
+                        
+                        modifyServer = ["actualizar" : IndexPath(row:index, section:0)]
+                        break
+                    }
+                }
+            }
+            else
+            {
+                modifyServer = ["actualizar" : selectedIndexPath]
+            }
             
         }
         else{
@@ -359,10 +449,13 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
                 
                 self.tableView.reloadData()
             }
+            
         }
         else if let responseServer = response as? [String: Any] {
             
             if let codigo = responseServer["response"] as? String, codigo == "ok" {
+                
+                let isSearching = searchController.isActive && !searchController.searchBar.text!.isEmpty
                 
                 if modifyServer["insertar"] != nil {
                     
@@ -374,17 +467,9 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
                 }
                 else if let indexPath = modifyServer["actualizar"] as? IndexPath {
                     
-                    if searchController.isActive && !searchController.searchBar.text!.isEmpty{
-                        
-                        actividadesF![indexPath.row] = actividadAux!
-                        
-                    }
-                    else
-                    {
-                        actividades[indexPath.row] = actividadAux!
-                    }
+                    actividades[indexPath.row] = actividadAux!
+                    if !isSearching{tableView.reloadRows(at: [indexPath], with: .none)}
                     
-                    tableView.reloadRows(at: [indexPath], with: .none)
                 }
                 else if modifyServer["eliminar"] != nil {
                     
@@ -404,9 +489,15 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
                     rowsDelete        = []
                     
                     DispatchQueue.main.async {
-                        
+                            
                         self.tableView.reloadData()
                     }
+                }
+                
+                if isSearching {
+                    
+                    self.updateSearchResults(for: searchController)
+                    //self.filterContentForSearchText(searchText: searchController.searchBar.text!)
                 }
                 
                 actividadAux = nil
@@ -420,7 +511,7 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
 extension MainTableViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        
-        self.filterContentForSearchText(searchText: searchController.searchBar.text!)
+        let scope = searchController.searchBar.selectedScopeButtonIndex
+        self.filterContentForSearchText(searchText: searchController.searchBar.text!, scopeIndex: scope)
     }
 }
