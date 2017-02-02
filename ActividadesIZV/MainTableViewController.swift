@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainTableViewController: UITableViewController, SendResponse, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
+class MainTableViewController: UITableViewController, SendResponse, UISearchBarDelegate {
 
     //MARK: Objetos conexion
     let api     = Api()
@@ -107,15 +107,17 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchCont
     }
     
     //Metodo que se llama cuando cambia el texto del campo de texto de la barra de busqueda
-    func updateSearchResults(for searchController: UISearchController) {
-    
-        if let searchText = searchController.searchBar.text, !searchText.isEmpty {
-            
-            actividadesF = actividades.filter( {($0 as Actividad).profesor.nombre == searchText})
-            print(actividadesF!)
-        }
+    func filterContentForSearchText(searchText:String){
         
+        
+        actividadesF = actividades.filter({$0.profesor.nombre.range(of: searchText, options: .caseInsensitive) != nil})
+        
+        DispatchQueue.main.async{
+            
+            self.tableView.reloadData()
+        }
     }
+    
     
     //Metodo que se llama cuando se selecciona un boton del scope bar
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
@@ -163,15 +165,13 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchCont
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         
-        if actividadesF != nil {
+        if searchController.isActive && !searchController.searchBar.text!.isEmpty{
             
             return actividadesF!.count
         }
-        else
-        {
-            
-            return actividades.count
-        }
+        
+        return actividades.count
+        
     }
 
     
@@ -184,7 +184,16 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchCont
             fatalError("Identificador erroneo o clase erronea")
         }
         
-        let actividad = actividades[indexPath.row]
+        let actividad: Actividad
+        
+        if searchController.isActive && !searchController.searchBar.text!.isEmpty {
+            
+            actividad = actividadesF![indexPath.row]
+        }
+        else
+        {
+            actividad = actividades[indexPath.row]
+        }
             
         //Cargamos los datos
         
@@ -278,7 +287,19 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchCont
                     fatalError("La columna seleccionada no esta en la tabla")
                 }
                 
-                activityDetailController.actividad = actividades[indexPath.row]
+                let actividad: Actividad
+                
+                if searchController.isActive && !searchController.searchBar.text!.isEmpty {
+                    actividad = actividadesF![indexPath.row]
+                }
+                else {
+                    
+                    actividad = actividades[indexPath.row]
+                }
+                
+            
+                //self.searchBarCancelButtonClicked(searchController.searchBar)
+                activityDetailController.actividad = actividad
             
             default: fatalError("Incorrecto identificador")
             
@@ -353,7 +374,16 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchCont
                 }
                 else if let indexPath = modifyServer["actualizar"] as? IndexPath {
                     
-                    actividades[indexPath.row] = actividadAux!
+                    if searchController.isActive && !searchController.searchBar.text!.isEmpty{
+                        
+                        actividadesF![indexPath.row] = actividadAux!
+                        
+                    }
+                    else
+                    {
+                        actividades[indexPath.row] = actividadAux!
+                    }
+                    
                     tableView.reloadRows(at: [indexPath], with: .none)
                 }
                 else if modifyServer["eliminar"] != nil {
@@ -385,4 +415,12 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchCont
         
     }
     
+}
+
+extension MainTableViewController: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        
+        self.filterContentForSearchText(searchText: searchController.searchBar.text!)
+    }
 }
