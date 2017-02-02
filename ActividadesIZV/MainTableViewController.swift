@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainTableViewController: UITableViewController, SendResponse, UISearchControllerDelegate, UISearchResultsUpdating {
+class MainTableViewController: UITableViewController, SendResponse, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
 
     //MARK: Objetos conexion
     let api     = Api()
@@ -21,7 +21,7 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchCont
     
     //Array donde se almacenan todas las actividades que se eliminaran
     var actividadesDelete        = [] as [Actividad]
-    var rowsDelete               = [] as [Int]
+    var rowsDelete               = [] as [IndexPath]
     
     //Barra de Busqueda
     var searchController         = UISearchController(searchResultsController: nil)
@@ -42,6 +42,7 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchCont
         
         /*self.tableView.rowHeight            = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight   = 125*/
+        searchController.searchBar.delegate = self
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
@@ -55,7 +56,26 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchCont
     //MARK: Actions
         
     @IBAction func searchClick(_ sender: UIBarButtonItem) {
+        
         self.tableView.tableHeaderView = searchController.searchBar
+        searchController.isActive = true
+            
+        DispatchQueue.main.async{
+            self.searchController.becomeFirstResponder()
+        }
+        
+    }
+    
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        print("Cancel")
+        self.tableView.tableHeaderView = nil
+        searchController.isActive = false
+        
+        DispatchQueue.main.async {
+            self.searchController.resignFirstResponder()
+        }
+        
     }
     
     @IBAction func sender(_ sender: UIBarButtonItem) {
@@ -83,6 +103,7 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchCont
     
     func updateSearchResults(for searchController: UISearchController) {
         print("Hola")
+        
     }
     
     //Utilizado para habilitar la seleccion multiple sin llamar al metodo prepare
@@ -94,7 +115,7 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchCont
     //Metodo que se llama cuando se selecciona una celda
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        rowsDelete.append(indexPath.row)
+        rowsDelete.append(indexPath)
         actividadesDelete.append(actividades[indexPath.row])
         
         
@@ -317,23 +338,11 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchCont
                      *  Este ocurria cuando se intentaba eliminar dos elementos separados
                      *  siendo uno de ellos el ultimo
                      */
-                    if rowsDelete.count == actividades.count {
+                    
+                    let tam = rowsDelete.count
+                    for index in stride(from: tam, to: 0, by: -1){
                         
-                        actividades.removeAll()
-                    }
-                    else {
-                        
-                        //Eliminamos las filas
-                        for index in 0..<rowsDelete.count {
-                            
-                            switch rowsDelete[index]{
-                                
-                                case actividades.endIndex:
-                                    actividades.removeLast()
-                                default:
-                                    actividades.remove(at: rowsDelete[index])
-                            }
-                        }
+                        actividades.remove(at: rowsDelete[index-1].row)
                     }
                     
                     actividadesDelete = []

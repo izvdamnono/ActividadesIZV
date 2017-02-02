@@ -71,7 +71,6 @@ class Api {
                 
                 do {
                     
-                    print(response)
                     switch method {
                         
                         case "GET":
