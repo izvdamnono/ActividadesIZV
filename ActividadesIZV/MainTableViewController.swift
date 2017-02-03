@@ -17,8 +17,8 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
     //MARK: Actividades
     var actividades              = [] as [Actividad]
     var actividadesF:[Actividad]?
-    var actividadAux: Actividad? = nil
-    var modifyServer             = [:] as [String : Any]
+    //var actividadAux: Actividad? = nil
+    //var modifyServer             = [:] as [String : Any]
     
     //Array donde se almacenan todas las actividades que se eliminaran
     var actividadesDelete        = [] as [Actividad]
@@ -88,6 +88,7 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
         queue.async{
             self.api.connectToServer(path:"actividad/", method:"GET", protocolo: self)
         }
+        print()
     }
     
     @IBAction func sender(_ sender: UIBarButtonItem) {
@@ -108,7 +109,6 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
                 self.api.connectToServer(path: "actividad/", method: "DELETE", data: dict, protocolo: self)
             }
             
-            modifyServer = ["eliminar" : 0]
         }
 
     }
@@ -388,7 +388,7 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
             return
         }
         
-        actividadAux = actividad
+        //actividadAux = actividad
         
         if let selectedIndexPath = tableView.indexPathForSelectedRow {
             
@@ -399,24 +399,6 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
                 let json = actividad.toJsonData()
                 
                 self.api.connectToServer(path: path, method: "PUT", data: json, protocolo: self)
-            }
-            
-            if searchController.isActive && !searchController.searchBar.text!.isEmpty {
-                
-                let idA = actividad.id
-                
-                for index in 0..<actividades.count {
-                    
-                    if actividades[index].id == idA {
-                        
-                        modifyServer = ["actualizar" : IndexPath(row:index, section:0)]
-                        break
-                    }
-                }
-            }
-            else
-            {
-                modifyServer = ["actualizar" : selectedIndexPath]
             }
             
         }
@@ -430,7 +412,6 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
                 self.api.connectToServer(path: "actividad", method: "POST", data: json, protocolo: self)
             }
             
-            modifyServer = ["insertar": 0]
         }
     }
 
@@ -438,6 +419,7 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
      
         if let activities = response as? [[String:Any]] {
             
+            let isSearching = searchController.isActive && !searchController.searchBar.text!.isEmpty
             actividades = []
             
             for actividad in activities {
@@ -445,9 +427,18 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
                 actividades.append(Actividad(json:actividad)!)
             }
             
-            DispatchQueue.main.async{
+            
+            if isSearching {
                 
-                self.tableView.reloadData()
+                self.updateSearchResults(for: self.searchController)
+                //self.filterContentForSearchText(searchText: searchController.searchBar.text!)
+            }
+            else {
+                
+                DispatchQueue.main.async{
+                    
+                    self.tableView.reloadData()
+                }
             }
             
         }
@@ -455,20 +446,21 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
             
             if let codigo = responseServer["response"] as? String, codigo == "ok" {
                 
-                let isSearching = searchController.isActive && !searchController.searchBar.text!.isEmpty
                 
-                if modifyServer["insertar"] != nil {
+                /*if modifyServer["insertar"] != nil {
                     
                     let newIndexPath = IndexPath(row: actividades.count, section: 0)
                     
                     actividades.append(actividadAux!)
-                    tableView.insertRows(at: [newIndexPath], with: .automatic)
+                    //tableView.insertRows(at: [newIndexPath], with: .automatic)
 
                 }
                 else if let indexPath = modifyServer["actualizar"] as? IndexPath {
                     
                     actividades[indexPath.row] = actividadAux!
-                    if !isSearching{tableView.reloadRows(at: [indexPath], with: .none)}
+                    /*if !isSearching{
+                        tableView.reloadRows(at: [indexPath], with: .none)
+                    }*/
                     
                 }
                 else if modifyServer["eliminar"] != nil {
@@ -488,19 +480,21 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
                     actividadesDelete = []
                     rowsDelete        = []
                     
-                    DispatchQueue.main.async {
+                    /*DispatchQueue.main.async {
                             
                         self.tableView.reloadData()
-                    }
-                }
+                    }*/
+                }*/
                 
-                if isSearching {
+                
+                DispatchQueue.main.async {
                     
-                    self.updateSearchResults(for: searchController)
-                    //self.filterContentForSearchText(searchText: searchController.searchBar.text!)
+                    self.api.connectToServer(path: "actividad/", method: "GET", protocolo: self)
+                    
                 }
                 
-                actividadAux = nil
+                
+                //actividadAux = nil
             }
         }
         
