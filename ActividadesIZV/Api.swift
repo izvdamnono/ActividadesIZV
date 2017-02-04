@@ -31,6 +31,11 @@ class Api {
         return self.getDomain() + "/assets/img/"
     }
     
+    func getGraphics() -> String {
+        
+        return self.getDomain() + "/graficos/pruebas1.php"
+    }
+    
     func connectToServer ( path: String, method: String, data: Any = [:], protocolo: SendResponse? = nil ) {
         
         //Comprobamos que la URL generada sea correcta

@@ -50,6 +50,25 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
         searchController.searchBar.scopeButtonTitles = scopes
         definesPresentationContext = true
         
+        //Toolbar
+        self.navigationController?.isToolbarHidden = false
+        var items = [UIBarButtonItem]()
+        let flex  = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        
+        items.append(flex)
+        items.append(UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(MainTableViewController.sender)))
+        items.append(flex)
+        items.append(UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(MainTableViewController.refreshData)))
+        items.append(flex)
+        items.append(UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(MainTableViewController.seeWebActivity)))
+        items.append(flex)
+        items.append(UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(MainTableViewController.searchClick)))
+        items.append(flex)
+        items.append(UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(MainTableViewController.onAddActivity)))
+        items.append(flex)
+        
+        self.toolbarItems = items
+        self.navigationItem.rightBarButtonItem = nil
     }
 
     override func didReceiveMemoryWarning() {
@@ -58,7 +77,20 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
     }
     
     //MARK: Actions
-    @IBAction func searchClick(_ sender: UIBarButtonItem) {
+    
+    func seeWebActivity() {
+        
+        performSegue(withIdentifier: "WebActivity", sender: nil)
+        
+    }
+    
+    func onAddActivity() {
+        
+        performSegue(withIdentifier: "AddActivity", sender: nil)
+    }
+    
+    
+    func searchClick(_ sender: UIBarButtonItem) {
         
         self.tableView.tableHeaderView = searchController.searchBar
         searchController.isActive = true
@@ -83,7 +115,7 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
     }
     
     
-    @IBAction func refreshData(_ sender: UIBarButtonItem) {
+    func refreshData(_ sender: UIBarButtonItem) {
         
         queue.async{
             self.api.connectToServer(path:"actividad/", method:"GET", protocolo: self)
@@ -91,7 +123,7 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
         print()
     }
     
-    @IBAction func sender(_ sender: UIBarButtonItem) {
+    func sender(_ sender: UIBarButtonItem) {
         
         self.tableView.setEditing( !self.tableView.isEditing, animated: true)
         
@@ -197,6 +229,8 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
             
             searchBar.text = ""
         }
+        
+        searchBar.resignFirstResponder()
     }
     
     //Utilizado para habilitar la seleccion multiple sin llamar al metodo prepare
@@ -344,6 +378,9 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
             
             case "AddActivity":
                 print("Nueva Actividad")
+            
+            case "WebActivity":
+                print("Web")
             
             case "ShowActivity":
                 
