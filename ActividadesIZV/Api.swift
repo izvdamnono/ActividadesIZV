@@ -33,7 +33,7 @@ class Api {
     
     func getGraphics() -> String {
         
-        return self.getDomain() + "/graficos/pruebas1.php"
+        return self.getDomain() + "/graficos/pruebas2.php"
     }
     
     func connectToServer ( path: String, method: String, data: Any = [:], protocolo: SendResponse? = nil ) {
