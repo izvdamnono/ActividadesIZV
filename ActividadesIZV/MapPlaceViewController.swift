@@ -20,15 +20,19 @@ class MapPlaceViewController: UIViewController {
     
     let locationManager = CLLocationManager()
     var resultSearchController:UISearchController? = nil
+    
     var selectedPin:MKPlacemark? = nil
+    var titleViewOgn: UIView?    = nil
+    var back:UIBarButtonItem?    = nil
+    var items:[UIBarButtonItem]  = []
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
+         // Do any additional setup after loading the view.
         
-        //Nos permite interacturar con el usuario y realizar las acciones del mapa de fora asyncrona
-        locationManager.delegate = self
+         //Nos permite interacturar con el usuario y realizar las acciones del mapa de fora asyncrona
+         locationManager.delegate = self
          
          /*
          Sobreescribimos el nivel de precision y lo aumentamos ya que por defecto tiene otro valor
@@ -41,22 +45,30 @@ class MapPlaceViewController: UIViewController {
          //Pedimos la ubicacion actual del dispositivo
          locationManager.requestLocation()
         
-        //Instanciamos la tabla declarada en nuestro Storyboard
-        let locationSearchTable = storyboard!.instantiateViewController(withIdentifier: "LocationSearchTable") as! MapActivityTableViewController
+         //Instanciamos la tabla declarada en nuestro Storyboard
+         let locationSearchTable = storyboard!.instantiateViewController(withIdentifier: "LocationSearchTable") as! MapActivityTableViewController
         
-        //Le asignamos el mapa a nuestra tabla
-        locationSearchTable.mapView = mapView
-        locationSearchTable.handleMapSearchDelegate = self
+         //Le asignamos el mapa a nuestra tabla
+         locationSearchTable.mapView = mapView
+         locationSearchTable.handleMapSearchDelegate = self
         
          //Indicamos quien se encarga de gestionar las busquedas
          resultSearchController  = UISearchController(searchResultsController: locationSearchTable)
          resultSearchController?.searchResultsUpdater = locationSearchTable
-         
-         let searchBar = resultSearchController!.searchBar
-         searchBar.sizeToFit()
-         searchBar.placeholder = "Buscando Lugares..."
-         navigationItem.titleView = resultSearchController?.searchBar
-         
+         resultSearchController?.searchBar.delegate   = self
+        
+         let search = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(MapPlaceViewController.search))
+         let add    = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(MapPlaceViewController.addLocation))
+        back       = UIBarButtonItem(title: "Atras", style: .plain, target: self, action: #selector(MapPlaceViewController.cancel))
+        
+         items.append(add)
+         items.append(search)
+        
+         self.navigationItem.setRightBarButtonItems(items, animated: true)
+         self.navigationItem.leftBarButtonItem = back
+        
+         titleViewOgn = self.navigationItem.titleView
+        
          //Determina si la barra de navegacion desaparece cuando aparece la barra de busqueda
          resultSearchController?.hidesNavigationBarDuringPresentation = false
          //Da apariencia de modal
@@ -89,6 +101,28 @@ class MapPlaceViewController: UIViewController {
             mapItem.openInMaps(launchOptions: launchOptions)
             
         }
+    }
+    
+    func search() {
+        
+        let searchBar = resultSearchController!.searchBar
+        searchBar.sizeToFit()
+        searchBar.placeholder = "Buscando Lugares..."
+        navigationItem.titleView = resultSearchController?.searchBar
+        navigationItem.rightBarButtonItems = nil
+        navigationItem.leftBarButtonItem   = nil
+        
+        //La barra de busqueda gana el foco automaticamente cuando se pulsa en el boton de buscar
+        resultSearchController!.searchBar.becomeFirstResponder()
+    }
+    
+    func addLocation() {
+        
+    }
+    
+    func cancel() {
+        
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -130,7 +164,7 @@ extension MapPlaceViewController: HandleMapSearch {
         selectedPin = placemark
         
         //Se pinta el punto existente eliminando los anteriores
-        mapView.removeAnnotation(mapView.annotations as! MKAnnotation)
+        mapView.removeAnnotations(mapView.annotations)
         let annotation = MKPointAnnotation()
         annotation.coordinate = placemark.coordinate
         annotation.title = placemark.name
@@ -174,5 +208,16 @@ extension MapPlaceViewController: MKMapViewDelegate {
         pinView?.leftCalloutAccessoryView = button
         
         return pinView
+    }
+}
+
+extension MapPlaceViewController: UISearchBarDelegate {
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        
+        navigationItem.titleView = titleViewOgn
+        
+        self.navigationItem.leftBarButtonItem = back
+        self.navigationItem.setRightBarButtonItems(items, animated: true)
     }
 }

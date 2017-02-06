@@ -15,7 +15,8 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
     //MARK: Outlets
     @IBOutlet weak var tfTitulo: UITextField!
     @IBOutlet weak var tfResumen: UITextField!
-    @IBOutlet weak var tvDescripcion: UITextView!
+    @IBOutlet weak var tvDescripcion: UITextView!    
+    @IBOutlet weak var lbLugar: UILabel!
     
     @IBOutlet weak var lbDepartamento: UILabel!
     @IBOutlet weak var lbProfesor: UILabel!
@@ -62,6 +63,7 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         //Reconocedores de gestos que nos permiten detectar la pulsacion de cada label de nuestra tabla
+        let tapPlc  = UITapGestureRecognizer(target: self, action: #selector(ActivityTableViewController.tapPlc))
          let tapDep = UITapGestureRecognizer(target: self, action: #selector(ActivityTableViewController.tapDep))
          let tapPro = UITapGestureRecognizer(target: self, action: #selector(ActivityTableViewController.tapPro))
          let tapGrp = UITapGestureRecognizer(target: self, action: #selector(ActivityTableViewController.tapGrp))
@@ -71,6 +73,7 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
          let tapImg = UITapGestureRecognizer(target: self, action: #selector(ActivityTableViewController.tapImg))
         
          //Agregamos los reconocedores de gestos a cada label
+         lbLugar.addGestureRecognizer(tapPlc)
          lbDepartamento.addGestureRecognizer(tapDep)
          lbProfesor.addGestureRecognizer(tapPro)
          lbGrupo.addGestureRecognizer(tapGrp)
@@ -234,6 +237,11 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
      */
      
      //MARK: Reconocedores utilizados para obtener respuesta al pulsar sobre un label
+     func tapPlc(sender:UITapGestureRecognizer) {
+     
+        performSegue(withIdentifier: "AddPlace", sender: nil)
+     }
+    
      func tapDep(sender:UITapGestureRecognizer) {
      
         viewPicker.tag = 0
