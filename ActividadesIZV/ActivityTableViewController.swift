@@ -146,11 +146,34 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
             //Comprobamos que tenga una direccion asignada
             if  let lat = act.lugar["lat"], lat != 0,
                 let lon = act.lugar["lon"], lon != 0 {
-                  
                 
-                placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon))
-                print(placemark?.addressDictionary) // nil no tiene direcciones!!
-                lbLugar.text = placemark?.title
+                
+                DispatchQueue.main.async {
+                    
+                    
+                    let location = CLLocation(latitude: lat, longitude: lon)
+                    
+                    CLGeocoder().reverseGeocodeLocation( location, completionHandler: {(placemarks, error) -> Void in
+                        
+                        if error != nil {
+                            print("Fallo en la geolocalizacion")
+                            return
+                        }
+                        
+                        if (placemarks?.count)! > 0 {
+                            
+                            if let mark = placemarks?[0] {
+                                
+                                print(mark)
+                                self.placemark     = MKPlacemark(coordinate: mark.location!.coordinate, addressDictionary: mark.addressDictionary as! [String : Any]?)
+                                self.lbLugar.text  = self.placemark?.title
+                                
+                            }
+                            
+                        }
+                    })
+                    
+                }
             }
             
             
