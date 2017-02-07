@@ -626,6 +626,10 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
                     mapActivity.selectedPin = placemark
                     
                 }
+                else {
+                    
+                   fatalError("No estas dando!")
+                }
             
             
             default:
