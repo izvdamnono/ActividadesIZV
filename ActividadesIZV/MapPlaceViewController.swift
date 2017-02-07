@@ -64,6 +64,9 @@ class MapPlaceViewController: UIViewController {
          items.append(add)
          items.append(search)
         
+         //Boton añadir por defecto lo desactivamos hasta que el usuario seleccione una ubicacion
+         add.isEnabled = false
+        
          self.navigationItem.setRightBarButtonItems(items, animated: true)
          self.navigationItem.leftBarButtonItem = back
         
@@ -76,9 +79,11 @@ class MapPlaceViewController: UIViewController {
          definesPresentationContext = true
         
         //Si el pin no es nulo al inicializar la clase se muestra la ubicacion
+        
         if selectedPin != nil {
          
             self.dropPinZoomIn(placemark: selectedPin!)
+            
         }
     }
     
@@ -112,7 +117,7 @@ class MapPlaceViewController: UIViewController {
     func search() {
         
         let searchBar = resultSearchController!.searchBar
-        searchBar.sizeToFit()
+        //searchBar.sizeToFit()
         searchBar.placeholder = "Buscando Lugares..."
         navigationItem.titleView = resultSearchController?.searchBar
         navigationItem.rightBarButtonItems = nil
@@ -189,6 +194,9 @@ extension MapPlaceViewController: HandleMapSearch {
         let region  = MKCoordinateRegionMake(placemark.coordinate, span)
         
         mapView.setRegion(region, animated: true)
+        
+        //Habilitamos el boton añadir si no esta habilitado
+        if !items[0].isEnabled { items[0].isEnabled = true }
     }
 }
 

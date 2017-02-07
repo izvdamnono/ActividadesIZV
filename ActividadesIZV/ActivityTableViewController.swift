@@ -143,6 +143,17 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
             formatter.dateFormat = "YYYY-MM-dd"
             datePicker.date      = formatter.date(from: act.fecha)!
             
+            //Comprobamos que tenga una direccion asignada
+            if  let lat = act.lugar["lat"], lat != 0,
+                let lon = act.lugar["lon"], lon != 0 {
+                  
+                
+                placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon))
+                print(placemark?.addressDictionary) // nil no tiene direcciones!!
+                lbLugar.text = placemark?.title
+            }
+            
+            
         }
         
         //Deshabilitamos el boton
@@ -621,15 +632,17 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
             
             case "AddPlace":
                 
-                if let mapActivity = segue.destination as?MapPlaceViewController {
-                    
-                    mapActivity.selectedPin = placemark
-                    
+                /*
+                    Obtenemos el navigationcontroller y comprobamos que el 
+                    controlador que embebe sea nuestro mapa
+                */
+                guard let nav = segue.destination as? UINavigationController,
+                      let map = nav.viewControllers[0] as? MapPlaceViewController else {
+                        
+                        fatalError("Problemas en la varga del controlador")
                 }
-                else {
-                    
-                   fatalError("No estas dando!")
-                }
+                
+                map.selectedPin = placemark
             
             
             default:
@@ -659,7 +672,17 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
                 let fec     = lbFecha.text!
                 let hini    = lbInicio.text!
                 let hfin    = lbFin.text!
+                var plc     = ["lat":Double(0), "lon":Double(0)]
                 
+                if placemark != nil {
+                    
+                    let lat = placemark?.location?.coordinate.latitude
+                    let lon = placemark?.location?.coordinate.longitude
+                    
+                    plc = ["lat":lat!, "lon":lon!]
+                    
+                    print(plc)
+                }
                 
                 //Comprobamos que tenga imagen
                 if changeImage {
@@ -671,7 +694,7 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
                 }
                 
                 //Insertamos la actividad en la BBDD de nuestro servidor
-                actividad = Actividad(id: id, profesor: pro, grupo: grp, titulo: tit, descripcion: des, resumen:res, fecha: fec, horaInicio: hini , horaFin: hfin, imagen: imagen)
+                actividad = Actividad(id: id, profesor: pro, grupo: grp, titulo: tit, descripcion: des, resumen:res, fecha: fec, horaInicio: hini , horaFin: hfin, imagen: imagen, lugar: plc)
             
             /*let json  = actividad!.toJsonData()
              
