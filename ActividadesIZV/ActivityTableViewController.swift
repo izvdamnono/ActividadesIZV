@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextViewDelegate, UITextFieldDelegate,
     UIImagePickerControllerDelegate, UINavigationControllerDelegate,
@@ -53,6 +54,9 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
     var profesor     = Profesor()
     var departamento = Departamento()
     var grupo        = Grupo()
+    
+    //MARK: Variable que almacena la posicion seleccionada para la actividad
+    var placemark:MKPlacemark? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -303,6 +307,25 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
         imagePickerController.delegate      = self
         present(imagePickerController, animated:true, completion:{})
     }
+    
+    @IBAction func unwindToActivityPlace(sender: UIStoryboardSegue){
+        
+        guard let controller = sender.source as? MapPlaceViewController,
+              let placemark  = controller.selectedPin else {
+            
+            return
+        }
+        
+        self.placemark = placemark
+        
+        if self.placemark != nil {
+            
+            //Pintamos el titulo del punto en nuestro label
+            self.lbLugar.text = placemark.title
+
+        }
+    }
+
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
     
@@ -594,50 +617,66 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
         
         super.prepare(for: segue, sender: sender)
      
-        guard   let button = sender as? UIBarButtonItem,
-                button === saveButton else {
-                    return
+        switch segue.identifier ?? "" {
+            
+            case "AddPlace":
+                
+                if let mapActivity = segue.destination as?MapPlaceViewController {
+                    
+                    mapActivity.selectedPin = placemark
+                    
+                }
+            
+            
+            default:
+            
+                
+                guard   let button = sender as? UIBarButtonItem,
+                        button === saveButton else {
+                        return
+                }
+                
+                //Almacenamos los datos de la actividad
+                
+                var id      = 0
+                var imagen  = ""
+                
+                if actividad != nil {
+                    
+                    id       = actividad!.id
+                    imagen   = actividad!.imagen
+                }
+                
+                let tit     = tfTitulo.text!
+                let res     = tfResumen.text!
+                let des     = tvDescripcion.text ?? ""
+                let pro     = self.profesor
+                let grp     = self.grupo
+                let fec     = lbFecha.text!
+                let hini    = lbInicio.text!
+                let hfin    = lbFin.text!
+                
+                
+                //Comprobamos que tenga imagen
+                if changeImage {
+                    
+                    //Codificamos la imagen en base64
+                    let imageData:Data = UIImagePNGRepresentation(ivActividad.image!)!
+                    imagen = imageData.base64EncodedString()
+                    
+                }
+                
+                //Insertamos la actividad en la BBDD de nuestro servidor
+                actividad = Actividad(id: id, profesor: pro, grupo: grp, titulo: tit, descripcion: des, resumen:res, fecha: fec, horaInicio: hini , horaFin: hfin, imagen: imagen)
+            
+            /*let json  = actividad!.toJsonData()
+             
+             queue.async {
+             
+             self.api.connectToServer(path:"actividad", method:"POST", data: json)
+             }*/
+
         }
-        
-        //Almacenamos los datos de la actividad
-        
-        var id      = 0
-        var imagen  = ""
-        
-        if actividad != nil {
-            
-           id       = actividad!.id
-           imagen   = actividad!.imagen
-        }
-        
-        let tit     = tfTitulo.text!
-        let res     = tfResumen.text!
-        let des     = tvDescripcion.text ?? ""
-        let pro     = self.profesor
-        let grp     = self.grupo
-        let fec     = lbFecha.text!
-        let hini    = lbInicio.text!
-        let hfin    = lbFin.text!
-        
-        
-        //Comprobamos que tenga imagen 
-        if changeImage {
-            
-            //Codificamos la imagen en base64
-            let imageData:Data = UIImagePNGRepresentation(ivActividad.image!)!
-            imagen = imageData.base64EncodedString()
-            
-        }
-        
-        //Insertamos la actividad en la BBDD de nuestro servidor
-        actividad = Actividad(id: id, profesor: pro, grupo: grp, titulo: tit, descripcion: des, resumen:res, fecha: fec, horaInicio: hini , horaFin: hfin, imagen: imagen)
-        
-        /*let json  = actividad!.toJsonData()
-        
-        queue.async {
-            
-            self.api.connectToServer(path:"actividad", method:"POST", data: json)
-        }*/
         
      }
      

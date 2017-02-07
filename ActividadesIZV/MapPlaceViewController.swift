@@ -59,7 +59,7 @@ class MapPlaceViewController: UIViewController {
         
          let search = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(MapPlaceViewController.search))
          let add    = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(MapPlaceViewController.addLocation))
-        back       = UIBarButtonItem(title: "Atras", style: .plain, target: self, action: #selector(MapPlaceViewController.cancel))
+         back       = UIBarButtonItem(title: "Atras", style: .plain, target: self, action: #selector(MapPlaceViewController.cancel))
         
          items.append(add)
          items.append(search)
@@ -74,6 +74,12 @@ class MapPlaceViewController: UIViewController {
          //Da apariencia de modal
          resultSearchController?.dimsBackgroundDuringPresentation = true
          definesPresentationContext = true
+        
+        //Si el pin no es nulo al inicializar la clase se muestra la ubicacion
+        if selectedPin != nil {
+         
+            self.dropPinZoomIn(placemark: selectedPin!)
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -118,12 +124,15 @@ class MapPlaceViewController: UIViewController {
     
     func addLocation() {
         
+        self.performSegue(withIdentifier: "CloseSegue", sender: nil)
+        
     }
     
     func cancel() {
         
         dismiss(animated: true, completion: nil)
     }
+    
 }
 
 extension MapPlaceViewController: CLLocationManagerDelegate {
