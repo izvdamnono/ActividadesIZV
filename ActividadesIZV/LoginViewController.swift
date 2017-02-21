@@ -9,8 +9,11 @@
 import UIKit
 import JWT
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, SendResponse {
 
+    
+    @IBOutlet weak var tfUsername: UITextField!
+    @IBOutlet weak var tfPassword: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +29,23 @@ class LoginViewController: UIViewController {
     }
     
 
+    @IBAction func login(_ sender: UIButton) {
+        
+        
+    }
+    
+    func sendResponse(response: Any) {
+    
+        guard let username = tfUsername.text,
+              let password = tfPassword.text else {
+                
+              return
+        }
+        
+        //Realizamos la peticion
+        
+    }
+    
     /*
     // MARK: - Navigation
 
