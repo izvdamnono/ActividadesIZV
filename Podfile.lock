@@ -1,0 +1,15 @@
+PODS:
+  - CryptoSwift (0.6.7)
+  - JSONWebToken (2.0.2):
+    - CryptoSwift (~> 0.6.1)
+
+DEPENDENCIES:
+  - JSONWebToken
+
+SPEC CHECKSUMS:
+  CryptoSwift: 685ae257941e5447474348a2b545583e1a16b573
+  JSONWebToken: ca86f02eeb3d1f58ba5197ec2cd53c7de915ecc1
+
+PODFILE CHECKSUM: 3b59a0446c980304c260166e03304045c5df92b1
+
+COCOAPODS: 1.1.1

@@ -1,0 +1,6 @@
+framework module Pods_ActividadesIZVUITests {
+  umbrella header "Pods-ActividadesIZVUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

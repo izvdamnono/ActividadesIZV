@@ -16,7 +16,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         let token = JWT.encode(["id": 8], algorithm: .hs256("culo".data(using: .utf8)!))
         
-        print("Mierda", token)
+        print(token)
         // Do any additional setup after loading the view.
     }
 
