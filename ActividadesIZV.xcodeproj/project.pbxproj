@@ -28,6 +28,7 @@
 		EDC1314C1E38665F00DF5C99 /* SendResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC1314B1E38665F00DF5C99 /* SendResponse.swift */; };
 		EDC131501E3866B300DF5C99 /* Grupo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC1314F1E3866B300DF5C99 /* Grupo.swift */; };
 		EDC2128A1E5C36F900281122 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC212891E5C36F900281122 /* LoginViewController.swift */; };
+		EDC2128D1E5D7C1300281122 /* UtilsFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC2128C1E5D7C1300281122 /* UtilsFile.swift */; };
 		EDD4569C1E3CF56900014DE8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDD4569A1E3CF56900014DE8 /* Main.storyboard */; };
 		EDD5ADF91E39FE320074BECC /* Departamento.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD5ADF81E39FE320074BECC /* Departamento.swift */; };
 /* End PBXBuildFile section */
@@ -82,6 +83,7 @@
 		EDC1314B1E38665F00DF5C99 /* SendResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendResponse.swift; sourceTree = "<group>"; };
 		EDC1314F1E3866B300DF5C99 /* Grupo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grupo.swift; sourceTree = "<group>"; };
 		EDC212891E5C36F900281122 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		EDC2128C1E5D7C1300281122 /* UtilsFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilsFile.swift; sourceTree = "<group>"; };
 		EDD4569B1E3CF56900014DE8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = ActividadesIZV/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EDD5ADF81E39FE320074BECC /* Departamento.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Departamento.swift; sourceTree = "<group>"; };
 		FA11AD94623860920C10EF1F /* Pods_ActividadesIZVUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ActividadesIZVUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -184,6 +186,7 @@
 		EDBECA4F1E367BE70048B079 /* ActividadesIZV */ = {
 			isa = PBXGroup;
 			children = (
+				EDC2128B1E5D7BE400281122 /* Utils */,
 				ED4E1FA31E3E4F73009E46DD /* Vistas Custom */,
 				EDA5E9AA1E392E4A008E0F25 /* Controladores */,
 				EDC131521E38671500DF5C99 /* Protocolos */,
@@ -234,6 +237,14 @@
 				EDC1314B1E38665F00DF5C99 /* SendResponse.swift */,
 			);
 			name = Protocolos;
+			sourceTree = "<group>";
+		};
+		EDC2128B1E5D7BE400281122 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				EDC2128C1E5D7C1300281122 /* UtilsFile.swift */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -530,6 +541,7 @@
 				EDC1314C1E38665F00DF5C99 /* SendResponse.swift in Sources */,
 				ED93CF471E48A1EB007CC02D /* MapPlaceViewController.swift in Sources */,
 				ED056AC21E463BA7000B37B9 /* WebAvtivityViewController.swift in Sources */,
+				EDC2128D1E5D7C1300281122 /* UtilsFile.swift in Sources */,
 				EDC131481E38660F00DF5C99 /* Api.swift in Sources */,
 				EDBECA511E367BE70048B079 /* AppDelegate.swift in Sources */,
 				EDC1314A1E38663500DF5C99 /* Profesor.swift in Sources */,

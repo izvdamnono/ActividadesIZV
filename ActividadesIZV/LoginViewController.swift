@@ -15,11 +15,21 @@ class LoginViewController: UIViewController, SendResponse {
     @IBOutlet weak var tfUsername: UITextField!
     @IBOutlet weak var tfPassword: UITextField!
     
-    let api = Api()
+    let api     = Api()
+    let queue   = DispatchQueue(label:"myFile", attributes: .concurrent)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        //Comprobamos el token del usuario
+        DispatchQueue.main.async {
+            
+            if let token = UtilsFile.getInfo() {
+                print(["token" : token])
+                self.api.connectToServer(path: "usuario", method: "POST", data: ["token" : token], protocolo: self)
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,7 +54,34 @@ class LoginViewController: UIViewController, SendResponse {
     
     func sendResponse(response: Any) {
     
-        print("Respuesta", response)
+        if let server = response as? [String: Any] {
+            print(server)
+            if server["response"] as? String == "ok" {
+                
+                performSegue(withIdentifier: "loginSuccess", sender: nil)
+            }
+            else if server["response"] as? String == "error" {
+                
+                //Error en el login
+                print("Error")
+            }
+            else if let server = response as? [String:Any]{
+                
+                let token = JWT.encode(server, algorithm: .hs256("izvkey".data(using: .utf8)!))
+                
+                queue.async {
+                    
+                    if UtilsFile.saveInfo(data: token) {
+                        
+                        print("token guardado")
+                    }
+                }
+                
+                //Se guarda en el fichero y se inicia el segue
+                performSegue(withIdentifier: "loginSuccess", sender: nil)
+            }
+        }
+        
     }
     
     /*
