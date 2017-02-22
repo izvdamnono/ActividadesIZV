@@ -10,7 +10,6 @@ import UIKit
 import JWT
 
 class LoginViewController: UIViewController, SendResponse {
-
     
     @IBOutlet weak var tfUsername: UITextField!
     @IBOutlet weak var tfPassword: UITextField!
@@ -26,7 +25,8 @@ class LoginViewController: UIViewController, SendResponse {
         DispatchQueue.main.async {
             
             if let token = UtilsFile.getInfo() {
-                print(["token" : token])
+                
+                print(token)
                 self.api.connectToServer(path: "usuario", method: "POST", data: ["token" : token], protocolo: self)
             }
         }
@@ -55,7 +55,7 @@ class LoginViewController: UIViewController, SendResponse {
     func sendResponse(response: Any) {
     
         if let server = response as? [String: Any] {
-            print(server)
+            
             if server["response"] as? String == "ok" {
                 
                 performSegue(withIdentifier: "loginSuccess", sender: nil)
@@ -69,16 +69,16 @@ class LoginViewController: UIViewController, SendResponse {
                 
                 let token = JWT.encode(server, algorithm: .hs256("izvkey".data(using: .utf8)!))
                 
-                queue.async {
+                DispatchQueue.main.async {
                     
                     if UtilsFile.saveInfo(data: token) {
                         
                         print("token guardado")
+                        //Se guarda en el fichero y se inicia el segue
+                        self.performSegue(withIdentifier: "loginSuccess", sender: nil)
                     }
                 }
                 
-                //Se guarda en el fichero y se inicia el segue
-                performSegue(withIdentifier: "loginSuccess", sender: nil)
             }
         }
         

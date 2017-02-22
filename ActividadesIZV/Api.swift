@@ -124,7 +124,7 @@ class Api {
                                         
                                         return
                                 }
-                                
+                                print()
                                 if protocolo != nil {
                                     
                                     protocolo!.sendResponse(response: conn)

@@ -27,10 +27,13 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
     //Barra de Busqueda
     var searchController         = UISearchController(searchResultsController: nil)
     var scopes                   = ["Profesor", "Fecha"]
+    var header:UIView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        header = self.tableView.tableHeaderView
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -104,8 +107,8 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
     //Metodo sobreescrito para poder tomar nosotros el control de nuestra barra de busqueda
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         
-        self.tableView.tableHeaderView = nil
-        searchController.isActive = false
+        self.tableView.tableHeaderView = header
+        /*searchController.isActive = false*/
         actividadesF = nil
         
         DispatchQueue.main.async {
@@ -120,7 +123,7 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
         queue.async{
             self.api.connectToServer(path:"actividad/", method:"GET", protocolo: self)
         }
-        print()
+        
     }
     
     func sender(_ sender: UIBarButtonItem) {

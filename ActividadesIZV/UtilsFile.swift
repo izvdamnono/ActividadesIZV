@@ -12,10 +12,11 @@ struct UtilsFile {
     
     static func saveInfo(data: String) -> Bool {
         
-        let file   = "token.text"
+        let file   = "token.txt"
         
         if let path = getFilePath(file: file) {
             do {
+                try "".write(to: path, atomically: false, encoding: String.Encoding.utf8)
                 try data.write(to: path, atomically: false, encoding: String.Encoding.utf8)
                 
                 return true
@@ -29,7 +30,7 @@ struct UtilsFile {
     
     static func getInfo() -> String? {
         
-        let file = "token.text"
+        let file = "token.txt"
         
         if let path = getFilePath(file:file) {
             
