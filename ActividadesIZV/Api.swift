@@ -7,12 +7,15 @@
 //
 
 import Foundation
+import JWT
 
 class Api {
     
     var scheme  = "https"
     var domain  = "iosapplication-fernan13.c9users.io"
     var api     = "api"
+    
+    private var key = "izvkey"
     
     init ( scheme : String = "", domain: String = "", api: String = "" ) {
         
@@ -51,13 +54,28 @@ class Api {
             //Comprobamos si el metodo es PUT o POST para introducir correctamente el parámetro json
             switch method {
                 
-                case "POST", "PUT", "DELETE":
+                case "POST":
+                    
+                    if path.contains("usuario"), let message = data as? [String : Any] {
+                        
+                        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                        request.httpBody = JWT.encode(message, algorithm: .hs256(key.data(using: .utf8)!)).data(using: .utf8)!
+                        
+                    }
+                    else if let jsonData = try? JSONSerialization.data(withJSONObject: data, options: .prettyPrinted) {
+                        
+                        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                        request.httpBody = jsonData
+                    }
+                
+                case "PUT", "DELETE":
                     
                     if let jsonData = try? JSONSerialization.data(withJSONObject: data, options: .prettyPrinted) {
                         
                         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                         request.httpBody = jsonData
                     }
+                
                 
                 default: break
             }
@@ -88,9 +106,33 @@ class Api {
                                 }
                             }
                         
+                        case "POST":
+                            
+                            if let conn = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any] {
+                                
+                                if protocolo != nil {
+                                    
+                                    protocolo!.sendResponse(response: conn)
+                                }
+                            }
+                            else {
+                                
+                                guard let payload = data,
+                                      let message = String(data: payload, encoding: .utf8),
+                                      let conn    = try? JWT.decode(message, algorithm: .hs256(self.key.data(using: .utf8)!)) else {
+                            
+                                        return
+                                }
+                                
+                                if protocolo != nil {
+                                    
+                                    protocolo!.sendResponse(response: conn)
+                                }
+                            }
+                        
                         
                         default :
-                            print(data!)
+                            
                             if let conn = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any] {
                                 
                                 if protocolo != nil {

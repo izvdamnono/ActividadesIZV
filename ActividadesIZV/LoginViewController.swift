@@ -15,11 +15,10 @@ class LoginViewController: UIViewController, SendResponse {
     @IBOutlet weak var tfUsername: UITextField!
     @IBOutlet weak var tfPassword: UITextField!
     
+    let api = Api()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let token = JWT.encode(["id": 8], algorithm: .hs256("culo".data(using: .utf8)!))
-        
-        print(token)
         // Do any additional setup after loading the view.
     }
 
@@ -31,19 +30,21 @@ class LoginViewController: UIViewController, SendResponse {
 
     @IBAction func login(_ sender: UIButton) {
         
+        guard let username = tfUsername.text,
+              let password = tfPassword.text else {
+                
+                return
+        }
+        
+        //Realizamos la peticion
+        let payload =  ["username": username, "password": password]
+        api.connectToServer(path: "usuario", method: "POST", data: payload, protocolo: self)
         
     }
     
     func sendResponse(response: Any) {
     
-        guard let username = tfUsername.text,
-              let password = tfPassword.text else {
-                
-              return
-        }
-        
-        //Realizamos la peticion
-        
+        print("Respuesta", response)
     }
     
     /*
