@@ -317,6 +317,7 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
                 
                 cell.ivActividad.image = UIImage(data:data as Data)
             }
+            
         }
         
         cell.lbTitulo.text          = actividad.titulo
@@ -324,7 +325,14 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
         cell.lbDepartamento.text    = actividad.profesor.departamento.nombre
         cell.lbProfesor.text        = actividad.profesor.nombre
         cell.lbGrupo.text           = actividad.grupo.nombre
-        cell.lbFecha.text           = actividad.fecha
+        
+        
+        let formatter        = DateFormatter()
+        formatter.dateFormat = "YYYY-MM-dd"
+        let date = formatter.date(from: actividad.fecha)!
+        formatter.dateFormat = "dd-MM-YYYY"
+        
+        cell.lbFecha.text           = formatter.string(from: date)
         cell.lbInicio.text          = actividad.horaInicio
         cell.lbFin.text             = actividad.horaFin
         
