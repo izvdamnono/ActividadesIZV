@@ -607,37 +607,73 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9an-jo-BK9">
-                                <rect key="frame" x="168" y="486" width="38" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Login"/>
-                                <connections>
-                                    <action selector="login:" destination="vda-W1-aQd" eventType="touchUpInside" id="u18-aS-rHg"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Nombre de usuario" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rOS-wM-dAk">
-                                <rect key="frame" x="16" y="247" width="343" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Contraseña" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Na8-GN-hP0">
-                                <rect key="frame" x="16" y="335" width="343" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
-                            </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Iniciar Sesion" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wko-vu-qj2">
-                                <rect key="frame" x="136" y="115" width="102" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="125" translatesAutoresizingMaskIntoConstraints="NO" id="tFO-zd-nKZ">
+                                <rect key="frame" x="16" y="20" width="343" height="647"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" verticalCompressionResistancePriority="751" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="V8i-yN-7q8">
+                                        <rect key="frame" x="20" y="0.0" width="303" height="150"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Iniciar Sesion" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wko-vu-qj2">
+                                                <rect key="frame" x="101" y="0.0" width="101.5" height="87"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image" translatesAutoresizingMaskIntoConstraints="NO" id="p3f-f6-45L">
+                                                <rect key="frame" x="120" y="87" width="63" height="63"/>
+                                            </imageView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="150" id="cyE-uG-ruF"/>
+                                        </constraints>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" verticalCompressionResistancePriority="751" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="onT-2V-yuq">
+                                        <rect key="frame" x="20" y="275" width="303" height="150"/>
+                                        <subviews>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Nombre de usuario" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rOS-wM-dAk">
+                                                <rect key="frame" x="0.0" y="0.0" width="303" height="70"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Contraseña" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Na8-GN-hP0">
+                                                <rect key="frame" x="0.0" y="80" width="303" height="70"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                            </textField>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="rOS-wM-dAk" firstAttribute="leading" secondItem="onT-2V-yuq" secondAttribute="leading" id="FEf-gI-vdc"/>
+                                            <constraint firstItem="Na8-GN-hP0" firstAttribute="width" secondItem="rOS-wM-dAk" secondAttribute="width" id="aga-iG-rNn"/>
+                                            <constraint firstItem="Na8-GN-hP0" firstAttribute="height" secondItem="rOS-wM-dAk" secondAttribute="height" id="yVn-Ep-OnL"/>
+                                            <constraint firstAttribute="trailing" secondItem="rOS-wM-dAk" secondAttribute="trailing" id="zMn-jT-1BY"/>
+                                        </constraints>
+                                    </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9an-jo-BK9">
+                                        <rect key="frame" x="152.5" y="550" width="38" height="97"/>
+                                        <state key="normal" title="Login"/>
+                                        <connections>
+                                            <action selector="login:" destination="vda-W1-aQd" eventType="touchUpInside" id="u18-aS-rHg"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="onT-2V-yuq" secondAttribute="trailing" constant="20" symbolic="YES" id="JsK-hz-tCr"/>
+                                    <constraint firstItem="onT-2V-yuq" firstAttribute="leading" secondItem="tFO-zd-nKZ" secondAttribute="leading" constant="20" symbolic="YES" id="TeY-is-jQh"/>
+                                    <constraint firstItem="onT-2V-yuq" firstAttribute="height" secondItem="V8i-yN-7q8" secondAttribute="height" id="cXH-Qc-9Dr"/>
+                                    <constraint firstAttribute="trailing" secondItem="V8i-yN-7q8" secondAttribute="trailing" constant="20" symbolic="YES" id="qcl-Fh-wub"/>
+                                    <constraint firstItem="V8i-yN-7q8" firstAttribute="leading" secondItem="tFO-zd-nKZ" secondAttribute="leading" constant="20" symbolic="YES" id="yOM-LR-s4e"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="tFO-zd-nKZ" secondAttribute="trailing" id="3Na-KS-fC2"/>
+                            <constraint firstItem="tFO-zd-nKZ" firstAttribute="leading" secondItem="lEZ-TW-7zG" secondAttribute="leadingMargin" id="46f-ee-B9u"/>
+                            <constraint firstItem="OLu-Ih-hkY" firstAttribute="top" secondItem="tFO-zd-nKZ" secondAttribute="bottom" id="7Zs-iV-rH2"/>
+                            <constraint firstItem="tFO-zd-nKZ" firstAttribute="top" secondItem="B5g-AV-l0o" secondAttribute="bottom" id="Q6C-ql-Ly5"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="tfPassword" destination="Na8-GN-hP0" id="KMI-no-FxW"/>

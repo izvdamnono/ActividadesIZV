@@ -22,14 +22,13 @@ class LoginViewController: UIViewController, SendResponse {
         // Do any additional setup after loading the view.
         
         //Comprobamos el token del usuario
-        DispatchQueue.main.async {
+        /*DispatchQueue.main.async {
             
             if let token = UtilsFile.getInfo() {
                 
-                print(token)
                 self.api.connectToServer(path: "usuario", method: "POST", data: ["token" : token], protocolo: self)
             }
-        }
+        }*/
     }
 
     override func didReceiveMemoryWarning() {
@@ -62,8 +61,18 @@ class LoginViewController: UIViewController, SendResponse {
             }
             else if server["response"] as? String == "error" {
                 
-                //Error en el login
-                print("Error")
+                DispatchQueue.main.async {
+                    
+                    //Error en el login
+                    let actionsheet = UIAlertController(title:"Error de autenticacion", message: "Usuario o contraseña incorrectos", preferredStyle: .alert)
+                    
+                    let cancelAction = UIAlertAction(title:"Cancelar", style: .cancel){ action -> Void in
+                        print("cancel")
+                    }
+                    
+                    actionsheet.addAction(cancelAction)
+                    self.present(actionsheet, animated: true, completion: nil)
+                }
             }
             else if let server = response as? [String:Any]{
                 
