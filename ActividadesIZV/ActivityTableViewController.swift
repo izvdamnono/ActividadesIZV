@@ -57,6 +57,9 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
     
     //MARK: Variable que almacena la posicion seleccionada para la actividad
     var placemark:MKPlacemark? = nil
+
+    //MARK: Formateador de fechas
+    let dateFormatter = DateFormatter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -310,6 +313,14 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
      
         //Mostramos el dialogo
         datePicker.datePickerMode = .date
+        datePicker.locale         = NSLocale(localeIdentifier: "es_ES") as Locale
+        
+        if let dateText = lbFecha.text, dateText != "Añadir" {
+            
+            dateFormatter.dateFormat = "YYYY-MM-dd"
+            datePicker.date          = dateFormatter.date(from: dateText)!
+        }
+        
         showDatePickerDialog()
      }
      
@@ -516,7 +527,7 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
      
             case 2:
                 
-                if row >= 0, row <= teachers.count - 1 {                    
+                if row >= 0, row <= groups.count - 1 {
                     
                     lbGrupo.text    = groups[row].nombre
                     grupo           = groups[row]
@@ -538,7 +549,7 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
      func loadDateOrTime() {
      
         let dateFormatter  = DateFormatter()
-        var label:UILabel? = nil
+        var label:UILabel?
      
         switch datePicker.tag {
      
@@ -554,7 +565,7 @@ class ActivityTableViewController: UITableViewController, UIPickerViewDelegate, 
 
                 label = lbInicio
      
-        case 2:
+            case 2:
                 dateFormatter.dateFormat = "HH:mm:ss"
                 dateFormatter.locale     = NSLocale(localeIdentifier: "en_US_POSIX") as Locale
 

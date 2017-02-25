@@ -14,8 +14,11 @@ class LoginViewController: UIViewController, SendResponse {
     @IBOutlet weak var tfUsername: UITextField!
     @IBOutlet weak var tfPassword: UITextField!
     
-    let api     = Api()
-    let queue   = DispatchQueue(label:"myFile", attributes: .concurrent)
+    let api                 = Api()
+    let queue               = DispatchQueue(label:"myFile", attributes: .concurrent)
+    
+    var activityIndicator   = UIActivityIndicatorView()
+    var messageFrame        = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,14 +48,40 @@ class LoginViewController: UIViewController, SendResponse {
                 return
         }
         
+        //Mostramos cargando
+        progressBarDisplayer(msg: "Iniciando Sesion", true)
+        
         //Realizamos la peticion
         let payload =  ["username": username, "password": password]
         api.connectToServer(path: "usuario", method: "POST", data: payload, protocolo: self)
         
     }
     
+    func progressBarDisplayer(msg:String, _ indicator:Bool) {
+        
+        let strLabel        = UILabel(frame: CGRect(x:50, y:0, width:200, height: 50))
+        strLabel.text       = msg
+        strLabel.textColor  = UIColor.white
+        
+        messageFrame        = UIView(frame: CGRect(x: view.frame.midX - 90, y: view.frame.midY - 2, width: 200, height: 50))
+        messageFrame.layer.cornerRadius = 15
+        messageFrame.backgroundColor    = UIColor(white: 0, alpha: 0.7)
+        
+        if indicator {
+            
+            self.activityIndicator       = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.white)
+            self.activityIndicator.frame = CGRect(x:0, y:0, width:50, height: 50)
+            self.activityIndicator.startAnimating()
+            messageFrame.addSubview(activityIndicator)
+        }
+        
+        messageFrame.addSubview(strLabel)
+        view.addSubview(messageFrame)
+    }
+    
     func sendResponse(response: Any) {
     
+        
         if let server = response as? [String: Any] {
             
             if server["response"] as? String == "ok" {
@@ -62,6 +91,8 @@ class LoginViewController: UIViewController, SendResponse {
             else if server["response"] as? String == "error" {
                 
                 DispatchQueue.main.async {
+                    
+                    self.messageFrame.removeFromSuperview()
                     
                     //Error en el login
                     let actionsheet = UIAlertController(title:"Error de autenticacion", message: "Usuario o contraseña incorrectos", preferredStyle: .alert)
@@ -82,7 +113,7 @@ class LoginViewController: UIViewController, SendResponse {
                     
                     if UtilsFile.saveInfo(data: token) {
                         
-                        print("token guardado")
+                        self.messageFrame.removeFromSuperview()
                         //Se guarda en el fichero y se inicia el segue
                         self.performSegue(withIdentifier: "loginSuccess", sender: nil)
                     }

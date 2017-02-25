@@ -124,33 +124,12 @@ class Api {
                                         
                                         return
                                 }
-                                print()
-                                if protocolo != nil {
-                                    
-                                    protocolo!.sendResponse(response: conn)
-                                }
-                            }
-                            /*
-                            if let conn = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any] {
                                 
                                 if protocolo != nil {
                                     
                                     protocolo!.sendResponse(response: conn)
                                 }
                             }
-                            else {
-                                guard let payload = data,
-                                      let message = String(data: payload, encoding: .utf8),
-                                      let conn    = try? JWT.decode(message, algorithm: .hs256(self.key.data(using: .utf8)!)) else {
-                            
-                                        return
-                                }
-                                
-                                if protocolo != nil {
-                                    
-                                    protocolo!.sendResponse(response: conn)
-                                }
-                            }*/
                         
                         
                         default :
