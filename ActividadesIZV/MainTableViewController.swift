@@ -95,9 +95,9 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
     
     func searchClick(_ sender: UIBarButtonItem) {
         
-        self.tableView.tableHeaderView = searchController.searchBar
-        searchController.isActive = true
-            
+        self.tableView.tableHeaderView  = searchController.searchBar
+        searchController.isActive       = true
+        
         DispatchQueue.main.async{
             self.searchController.becomeFirstResponder()
         }
@@ -185,7 +185,8 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
         let datePicker              = UIDatePicker()
         datePicker.timeZone         = NSTimeZone.local
         datePicker.datePickerMode   = .date
-        
+        datePicker.locale           = NSLocale(localeIdentifier: "es_ES") as Locale
+
         if !searchController.searchBar.text!.isEmpty && searchController.isActive {
             
             let formatter               = DateFormatter()
@@ -245,8 +246,22 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
     //Metodo que se llama cuando se selecciona una celda
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        let isSearching = searchController.isActive && !searchController.searchBar.text!.isEmpty
+        
+        if isSearching {
+            
+            if actividadesF != nil {
+                
+                actividadesDelete.append(actividadesF![indexPath.row])
+            }
+        }
+        else {
+            
+            actividadesDelete.append(actividades[indexPath.row])
+            
+        }
+        
         rowsDelete.append(indexPath)
-        actividadesDelete.append(actividades[indexPath.row])
         
         
     }

@@ -31,7 +31,7 @@ class MapPlaceViewController: UIViewController {
         
          // Do any additional setup after loading the view.
         
-         //Nos permite interacturar con el usuario y realizar las acciones del mapa de fora asyncrona
+         //Nos permite interacturar con el usuario y realizar las acciones del mapa de forma asincrona
          locationManager.delegate = self
          
          /*
