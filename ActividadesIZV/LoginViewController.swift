@@ -80,10 +80,10 @@ class LoginViewController: UIViewController, SendResponse {
     }
     
     func sendResponse(response: Any) {
-    
         
         if let server = response as? [String: Any] {
             
+            print(server)
             if server["response"] as? String == "ok" {
                 
                 performSegue(withIdentifier: "loginSuccess", sender: nil)

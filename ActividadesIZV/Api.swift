@@ -10,11 +10,14 @@ import Foundation
 import JWT
 
 class Api {
-    
+    /*
     var scheme  = "https"
     var domain  = "iosapplication-fernan13.c9users.io"
-    var api     = "api"
+    var api     = "api"*/
     
+    var scheme  = "http"
+    var domain  = "192.168.208.45:8181/workspace"
+    var api     = "api"
     private var key = "izvkey"
     
     init ( scheme : String = "", domain: String = "", api: String = "" ) {
@@ -42,7 +45,6 @@ class Api {
     func connectToServer ( path: String, method: String, data: Any = [:], protocolo: SendResponse? = nil ) {
         
         //Comprobamos que la URL generada sea correcta
-        
         if let url = NSURL(string: scheme + "://" + domain + "/" + api + "/" + path) {
             
             //Creamos la peticion
