@@ -131,6 +131,7 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
         self.tableView.setEditing( !self.tableView.isEditing, animated: true)
         
         if actividadesDelete.count > 0 {
+        
             
             var dict = [] as [[String:Int]]
             
@@ -255,7 +256,7 @@ class MainTableViewController: UITableViewController, SendResponse, UISearchBarD
                 actividadesDelete.append(actividadesF![indexPath.row])
             }
         }
-        else {
+        else if tableView.isEditing {
             
             actividadesDelete.append(actividades[indexPath.row])
             
